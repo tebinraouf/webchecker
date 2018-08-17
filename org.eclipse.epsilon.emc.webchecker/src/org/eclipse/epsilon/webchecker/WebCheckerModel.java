@@ -44,6 +44,8 @@ public class WebCheckerModel extends CachedModel<Element>  {
 	@Override
 	protected void loadModel() throws EolModelLoadingException {
 		try {
+			
+			
 			document = Jsoup.parse(file, "UTF-8");		
 			elements = document.getAllElements();
 		}
@@ -62,12 +64,11 @@ public class WebCheckerModel extends CachedModel<Element>  {
 		}
 		else {
 			uri = properties.getProperty(PROPERTY_URI);
-			if (uri.startsWith("file:")) {
-				try {
-					file = new File(new URI(uri));
-				} catch (URISyntaxException e) {
-					throw new EolModelLoadingException(e, this);
-				}
+			try {
+				//TODO: check for mac and windows
+				file = new File(new URI(uri));
+			} catch (URISyntaxException e) {
+				throw new EolModelLoadingException(e, this);
 			}
 		}
 		load();
