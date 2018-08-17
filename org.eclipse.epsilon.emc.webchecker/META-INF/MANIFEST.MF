@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: WebChecker
+Bundle-SymbolicName: org.eclipse.epsilon.emc.webchecker
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: WebChecker
+Export-Package: org.eclipse.epsilon.webchecker
+Require-Bundle: org.eclipse.epsilon.eol.engine;bundle-version="1.5.0"
+Bundle-ClassPath: lib/jsoup-1.11.3.jar,
+ .
+Import-Package: org.eclipse.epsilon.emc.plainxml
