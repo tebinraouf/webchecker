@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Almost all the code here is taken from PlainXMLModel EMC driver by Dimitrios Kolovos
+ * The initial code of this file is from PlainXMLModel EMC driver by Dimitrios Kolovos
  ******************************************************************************/
 package org.eclipse.epsilon.webchecker.dt;
 
