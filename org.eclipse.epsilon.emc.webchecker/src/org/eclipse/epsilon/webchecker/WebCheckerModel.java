@@ -29,10 +29,15 @@ import org.jsoup.nodes.Element;
 public class WebCheckerModel extends CachedModel<Element>  {
 
 	protected static String ELEMENT_TYPE = "Element";	
+	
 	protected File file = null;
 	protected String uri = null;
+	protected int timeout = 1;
+	
 	public static String PROPERTY_FILE = "file";
 	public static String PROPERTY_URI = "uri";
+	public static String Property_URL_Timeout = "timeout";
+	public static String FILE_TYPE = "UTF-8";
 	
 	protected WebCheckerPropertyGetter propertyGetter = new WebCheckerPropertyGetter();
 	protected WebCheckerPropertySetter propertySetter = new WebCheckerPropertySetter();
@@ -46,17 +51,17 @@ public class WebCheckerModel extends CachedModel<Element>  {
 	protected void loadModel() throws EolModelLoadingException {
 		try {
 			if (this.file != null) {
-				document = Jsoup.parse(file, "UTF-8");		
+				document = Jsoup.parse(file, FILE_TYPE);		
 			} else if (this.uri != null) {				
 				//check if URL or not
 				if (Utility.isValidURL(this.uri)) {
 					//URL
 					URL url = new URL(this.uri);
-					document = Jsoup.parse(url, 100000);
+					document = Jsoup.parse(url, (timeout * 60000));
 				} else {
 					//URI
 					file = new File(uri);
-					document = Jsoup.parse(file, "UTF-8");		
+					document = Jsoup.parse(file, FILE_TYPE);		
 				}	
 			} 
 			elements = document.getAllElements();
@@ -76,6 +81,7 @@ public class WebCheckerModel extends CachedModel<Element>  {
 		}
 		else {
 			uri = properties.getProperty(PROPERTY_URI);
+			timeout = properties.getIntegerProperty(Property_URL_Timeout, 1);
 		}
 		load();
 	}
