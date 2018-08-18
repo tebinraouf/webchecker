@@ -45,26 +45,20 @@ public class WebCheckerModel extends CachedModel<Element>  {
 	@Override
 	protected void loadModel() throws EolModelLoadingException {
 		try {
-			
-			
 			if (this.file != null) {
 				document = Jsoup.parse(file, "UTF-8");		
-			} else if (this.uri != null) {
-				
+			} else if (this.uri != null) {				
 				//check if URL or not
 				if (Utility.isValidURL(this.uri)) {
 					//URL
 					URL url = new URL(this.uri);
-					document = Jsoup.parse(url, 60);
+					document = Jsoup.parse(url, 100000);
 				} else {
 					//URI
 					file = new File(uri);
 					document = Jsoup.parse(file, "UTF-8");		
-				}
-				
-				
+				}	
 			} 
-			
 			elements = document.getAllElements();
 		}
 		catch (Exception ex) {
