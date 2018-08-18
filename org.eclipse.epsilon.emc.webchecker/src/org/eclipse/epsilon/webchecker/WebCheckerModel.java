@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.net.URI;
 
 import org.eclipse.epsilon.common.util.StringProperties;
@@ -46,7 +47,24 @@ public class WebCheckerModel extends CachedModel<Element>  {
 		try {
 			
 			
-			document = Jsoup.parse(file, "UTF-8");		
+			if (this.file != null) {
+				document = Jsoup.parse(file, "UTF-8");		
+			} else if (this.uri != null) {
+				
+				//check if URL or not
+				if (Utility.isValidURL(this.uri)) {
+					//URL
+					URL url = new URL(this.uri);
+					document = Jsoup.parse(url, 60);
+				} else {
+					//URI
+					file = new File(uri);
+					document = Jsoup.parse(file, "UTF-8");		
+				}
+				
+				
+			} 
+			
 			elements = document.getAllElements();
 		}
 		catch (Exception ex) {
@@ -64,12 +82,6 @@ public class WebCheckerModel extends CachedModel<Element>  {
 		}
 		else {
 			uri = properties.getProperty(PROPERTY_URI);
-			try {
-				//TODO: check for mac and windows
-				file = new File(new URI(uri));
-			} catch (URISyntaxException e) {
-				throw new EolModelLoadingException(e, this);
-			}
 		}
 		load();
 	}
