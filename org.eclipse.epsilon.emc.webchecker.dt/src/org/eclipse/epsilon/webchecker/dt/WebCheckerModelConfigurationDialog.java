@@ -139,7 +139,6 @@ public class WebCheckerModelConfigurationDialog extends AbstractCachedModelConfi
 	@Override
 	protected void storeProperties() {
 		super.storeProperties();
-		System.out.println("hi there");
 		properties.setProperty(WebCheckerModel.PROPERTY_FILE, fileText.getText());
 		properties.setProperty(WebCheckerModel.PROPERTY_URI, uriText.getText());
 		properties.setProperty(WebCheckerModel.Property_URL_Timeout, urlTimeoutText.getText());

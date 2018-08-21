@@ -4,10 +4,7 @@ import java.io.File;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URI;
-
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.plainxml.PlainXmlType;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -29,15 +26,15 @@ import org.jsoup.nodes.Element;
 public class WebCheckerModel extends CachedModel<Element>  {
 
 	protected static String ELEMENT_TYPE = "Element";	
+	public static String PROPERTY_FILE = "file";
+	public static String PROPERTY_URI = "uri";
+	public static String Property_URL_Timeout = "timeout";
+	public static String FILE_TYPE = "UTF-8";
 	
 	protected File file = null;
 	protected String uri = null;
 	protected int timeout = 1;
 	
-	public static String PROPERTY_FILE = "file";
-	public static String PROPERTY_URI = "uri";
-	public static String Property_URL_Timeout = "timeout";
-	public static String FILE_TYPE = "UTF-8";
 	
 	protected WebCheckerPropertyGetter propertyGetter = new WebCheckerPropertyGetter();
 	protected WebCheckerPropertySetter propertySetter = new WebCheckerPropertySetter();
