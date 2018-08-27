@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.net.URL;
 import org.eclipse.epsilon.common.util.StringProperties;
+import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
 import org.eclipse.epsilon.emc.plainxml.PlainXmlType;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
@@ -21,6 +22,7 @@ import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.safety.Whitelist;
 
 
 public class WebCheckerModel extends CachedModel<Element>  {
@@ -63,7 +65,7 @@ public class WebCheckerModel extends CachedModel<Element>  {
 				}	
 			} else if (this.code != null) {
 				//Parse HTML code passed as a string to setCode()
-				document = Jsoup.parse(this.code);
+				document = Jsoup.parse(this.code);					
 			}
 			elements = document.getAllElements();
 		}
@@ -136,6 +138,9 @@ public class WebCheckerModel extends CachedModel<Element>  {
 	}
 	public void setCode(String code) {
 		this.code = code;
+	}
+	public void setTimeout(int timeout) {
+		this.timeout = timeout;
 	}
 	
 	@Override

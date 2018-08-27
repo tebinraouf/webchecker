@@ -50,7 +50,7 @@ public class WebCheckerPropertyGetter extends JavaPropertyGetter {
 	@Override
 	public Object invoke(Object object, String property) throws EolRuntimeException {
 		
-		System.out.println("Entering invoke() in WebCheckerPropertyGetter class");
+//		System.out.println("Entering invoke() in WebCheckerPropertyGetter class");
 		
 		Element element = (Element) object;
 		
