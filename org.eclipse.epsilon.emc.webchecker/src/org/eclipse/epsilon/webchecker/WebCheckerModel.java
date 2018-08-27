@@ -34,13 +34,13 @@ public class WebCheckerModel extends CachedModel<Element>  {
 	protected File file = null;
 	protected String uri = null;
 	protected int timeout = 1;
-	
+	protected String code = null;
 	
 	protected WebCheckerPropertyGetter propertyGetter = new WebCheckerPropertyGetter();
 	protected WebCheckerPropertySetter propertySetter = new WebCheckerPropertySetter();
 		
 	/* Objects in this model are a list of elements */
-	protected List<Element> elements;
+	public List<Element> elements;
 	
 	private Document document;
 	//SECTION 2 Parse Model
@@ -50,17 +50,21 @@ public class WebCheckerModel extends CachedModel<Element>  {
 			if (this.file != null) {
 				document = Jsoup.parse(file, FILE_TYPE);		
 			} else if (this.uri != null) {				
-				//check if URL or not
+				//check if valid URL or not
 				if (Utility.isValidURL(this.uri)) {
 					//URL
 					URL url = new URL(this.uri);
 					document = Jsoup.parse(url, (timeout * 60000));
 				} else {
-					//URI
+					//URI is not URL.
+					//TODO: Check if uri is valid on Windows
 					file = new File(uri);
 					document = Jsoup.parse(file, FILE_TYPE);		
 				}	
-			} 
+			} else if (this.code != null) {
+				//Parse HTML code passed as a string to setCode()
+				document = Jsoup.parse(this.code);
+			}
 			elements = document.getAllElements();
 		}
 		catch (Exception ex) {
@@ -127,6 +131,13 @@ public class WebCheckerModel extends CachedModel<Element>  {
 		else return false;
 	}
 	
+	public void setURI(String uri) {
+		this.uri = uri;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+	
 	@Override
 	public Object getEnumerationValue(String enumeration, String label) throws EolEnumerationValueNotFoundException {
 		return null;
@@ -187,4 +198,5 @@ public class WebCheckerModel extends CachedModel<Element>  {
 	protected Collection<String> getAllTypeNamesOf(Object instance) {
 		return Collections.singleton(getTypeNameOf(instance));
 	}
+	
 }
