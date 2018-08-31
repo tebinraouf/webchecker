@@ -17,5 +17,5 @@ Import-Package: org.eclipse.epsilon.emc.plainxml,
  org.eclipse.epsilon.webchecker,
  org.junit;version="4.12.0"
 Require-Bundle: org.eclipse.epsilon.common.dt;bundle-version="1.5.0"
-Bundle-ClassPath: junit-4.10.jar,
- .
+Bundle-ClassPath: .,
+ libs/junit-4.11.jar
