@@ -6,7 +6,16 @@ Bundle-Version: 1.0.0.qualifier
 Automatic-Module-Name: WebChecker
 Export-Package: org.eclipse.epsilon.webchecker
 Require-Bundle: org.eclipse.epsilon.eol.engine;bundle-version="1.5.0"
-Import-Package: org.eclipse.epsilon.emc.plainxml
+Import-Package: org.eclipse.epsilon.emc.plainxml,
+ org.eclipse.epsilon.erl,
+ org.eclipse.epsilon.evl,
+ org.eclipse.epsilon.evl.dom,
+ org.eclipse.epsilon.evl.execute,
+ org.eclipse.epsilon.evl.execute.context,
+ org.eclipse.epsilon.evl.execute.exceptions,
+ org.eclipse.epsilon.evl.execute.operations,
+ org.eclipse.epsilon.evl.parse,
+ org.eclipse.epsilon.evl.trace
 Bundle-ClassPath: .,
  libs/selenium/byte-buddy-1.8.15.jar,
  libs/selenium/client-combined-3.14.0.jar,

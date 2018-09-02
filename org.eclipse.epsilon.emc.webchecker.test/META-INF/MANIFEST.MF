@@ -4,7 +4,7 @@ Bundle-Name: Test
 Bundle-SymbolicName: org.eclipse.epsilon.emc.webchecker.test
 Bundle-Version: 1.0.0.qualifier
 Automatic-Module-Name: org.eclipse.epsilon.emc.webchecker.test
-Bundle-RequiredExecutionEnvironment: JavaSE-10
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: org.eclipse.epsilon.emc.plainxml,
  org.eclipse.epsilon.evl,
  org.eclipse.epsilon.evl.dom,
@@ -16,6 +16,8 @@ Import-Package: org.eclipse.epsilon.emc.plainxml,
  org.eclipse.epsilon.evl.trace,
  org.eclipse.epsilon.webchecker,
  org.junit;version="4.12.0"
-Require-Bundle: org.eclipse.epsilon.common.dt;bundle-version="1.5.0"
+Require-Bundle: org.eclipse.epsilon.common.dt;bundle-version="1.5.0",
+ org.eclipse.epsilon.emc.webchecker;bundle-version="1.0.0"
 Bundle-ClassPath: .,
- libs/junit-4.11.jar
+ libs/junit-4.10.jar
+Export-Package: org.eclipse.epsilon.emc.webchecker.test

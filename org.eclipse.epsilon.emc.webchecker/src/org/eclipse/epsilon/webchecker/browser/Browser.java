@@ -23,25 +23,6 @@ public class Browser {
 	private static String GEOKODRIVERKEY = "webdriver.gecko.driver";
 	private static String GEOKODRIVERVALUE = FileSystems.getDefault().getPath("drivers/geckodriver").toAbsolutePath().toString();
 	
-	public static void main(String[] args) {
-		
-		Browser browser = new Browser();
-		WebDriver driver = browser.getDriver();
-		driver.get("https://www.eclipse.org/epsilon/");
-		
-		driver.findElement(By.tagName("a").cssSelector("a[href='#languages']")).click();
-		
-//		WebElement elements = driver.findElement(By.tagName("a"));
-//		
-//		System.out.println(elements.getText());
-//		
-//		System.out.println(driver.getTitle());
-//		
-//		driver.quit();
-		
-		System.out.println("test...");
-		
-	}
 	
 	//By Default, for now it's Firefox driver
 	public Browser() {

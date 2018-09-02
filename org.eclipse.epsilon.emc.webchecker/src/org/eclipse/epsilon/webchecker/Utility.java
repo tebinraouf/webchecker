@@ -1,6 +1,8 @@
 package org.eclipse.epsilon.webchecker;
 
+import java.net.URI;
 import java.net.URL;
+
 
 public class Utility {
 	public static boolean isValidURL(String uri) {
@@ -13,5 +15,13 @@ public class Utility {
 	    {
 	        return false;
 	    }
+	}
+	public static boolean isValidURI(String uri) {
+		try {
+			URI.create(uri);
+			return true;
+		} catch(Exception e) {
+			return false;
+		}
 	}
 }

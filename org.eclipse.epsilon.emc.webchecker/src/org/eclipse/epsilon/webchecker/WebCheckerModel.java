@@ -58,10 +58,11 @@ public class WebCheckerModel extends CachedModel<Element>  {
 					URL url = new URL(this.uri);
 					document = Jsoup.parse(url, (timeout * 60000));
 				} else {
-					//URI is not URL.
-					//TODO: Check if uri is valid on Windows
-					file = new File(uri);
-					document = Jsoup.parse(file, FILE_TYPE);		
+					if (Utility.isValidURI(this.uri)) {
+						//URI is not URL and is valid URI.
+						file = new File(uri);
+						document = Jsoup.parse(file, FILE_TYPE);								
+					}
 				}	
 			} else if (this.code != null) {
 				//Parse HTML code passed as a string to setCode()
