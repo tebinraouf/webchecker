@@ -1,0 +1,7 @@
+context t_div {
+	constraint InButtonGroup {
+		guard : self.class.includes("btn-large")
+		check : self.parent.classes.includes("btn-group")
+		message : "btn-large divs should be contained under btn-group"
+	}
+}

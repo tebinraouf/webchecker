@@ -11,49 +11,30 @@ public class TestDriver {
 
 	public static void main(String[] args) {
 		
+		//Step 1: Get the source to be validated
+		Browser browser = new Browser();
+		WebDriver driver = browser.getDriver();
+		driver.get("https://www.eclipse.org/epsilon/");		
+		WebElement element = driver.findElement(By.className("span5"));
+		String html = element.getAttribute("outerHTML");
 		
-		String html = "https://raw.githubusercontent.com/tebinraouf/samplefiles/master/sample.html";
-		String evl = "/Users/Tebin/Desktop/Eclipse-Workspace/mydriver/webchecker/WebCheckerSample/sample.evl";
+		//Step 2: Write your validation using Epsilon Validation Language
+		String evl = "files/sampleEVL.evl";
 		
+		//Step 3: Check the validation against the html in step 1
 		WebChecker checker = new WebChecker();
 		checker.setSource(html);
 		checker.setValidation(evl);
 		checker.check();
-		System.out.println(checker.isValid());
-		List<String> errors = checker.errors();
 		
+		//Step 4: Check the result
+		System.out.println("Does the html code pass validation? " + checker.isValid());
+		List<String> errors = checker.errors();
+		System.out.println("Validation Errors:");
 		for (String error : errors) {
 			System.out.println(error);
-		}
-		
-		
-//		Browser browser = new Browser();
-//		WebDriver driver = browser.getDriver();
-//		driver.get("https://www.eclipse.org/epsilon/");
-		
-//		driver.findElement(By.tagName("a").cssSelector("a[href='#languages']")).click();
-		
-//		WebElement elements = driver.findElement(By.tagName("a"));
-//		
-//		System.out.println(elements.getText());
-//		
-//		System.out.println(driver.getTitle());
-//		
-//		driver.quit();
-		
-		
-//		List<WebElement> elements = driver.findElements(By.tagName("div"));
-//		
-//		for (WebElement webElement : elements) {
-//			String text = webElement.getText();
-//			System.out.println("each element");
-//		}
-		
-		
-		
-		
-		System.out.println("test...");
-		
+		}		
+		driver.quit();
 	}
 
 }
