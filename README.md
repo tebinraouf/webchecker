@@ -15,6 +15,7 @@ Like any other Epsilon plugins, there are two main parts or eclipse projects:
 
 1. WebChecker: this project contains all the required classes. WebCheckerModel extends CachedModel abstract class to interact with Epsilon Validation Language (EVL). 
 2. WebChecker.dt: this project creates the GUI for the plugin if run as Eclipse Application.
+3. WebChecker.test: this project tests the WebChecker plugin by using HTML and EVL as code.  
 
 ## Code Explanation
 ### WebChecker
@@ -47,7 +48,7 @@ Main classes include:
     self.parent.classes.includes("btn-group")
     ```
 
-    `parent` and `classes` are property of `Parent` and `Classes` respectively. `includes(String className)` is a method of `Classes`.
+    `parent` and `classes` are a property of `Parent` and `Classes` respectively. `includes(String className)` is a method of `Classes`.
 
 * Browser
 
@@ -55,7 +56,7 @@ Main classes include:
 
 * WebChecker
 
-    This class is just a wrapper class for the WebCheckerModel. 
+    This class is just a wrapper and convenient class for the WebCheckerModel. 
 
     ```Java
     WebChecker checker = new WebChecker(); //[1]
@@ -65,9 +66,9 @@ Main classes include:
     ```  
     [1] Create an instance with the default constructor.
 
-    [2] Set the modal source (i.e. the html file either URI or code as string)
+    [2] Set the modal source (i.e. the html file) either URI or code as string.
 
-    [3] Set the EVL source either URI or code as string 
+    [3] Set the EVL source either URI or code as string. 
 
     [4] Check the HTML file or code against the EVL validation.
 
