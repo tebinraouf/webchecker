@@ -29,15 +29,6 @@ public class Browser {
 		System.setProperty(GEOKODRIVERKEY, GEOKODRIVERVALUE);
 		driver = new FirefoxDriver();
 	}
-	public Browser(WebCheckerModel model) {
-		this.model = model;
-	}
-	public WebCheckerModel getModel() {
-		return model;
-	}
-	public void setModel(WebCheckerModel model) {
-		this.model = model;
-	}
 	public WebDriver getDriver() {
 		return driver;
 	}
