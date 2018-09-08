@@ -3,6 +3,12 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertyGetter;
 import org.jsoup.nodes.Element;
 
+class Type {
+	public boolean has(String attributeName) {
+		return true;
+	}
+}
+
 class Classes {
 	private Element element;
 	public Classes(Element element) {

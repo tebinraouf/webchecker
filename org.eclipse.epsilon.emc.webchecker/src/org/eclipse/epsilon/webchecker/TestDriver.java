@@ -7,8 +7,8 @@ public class TestDriver {
 	public static void main(String[] args) {
 
 		WebCheckerExamples examples = new WebCheckerExamples();
-		examples.e1();
-//		examples.e2();
+//		examples.e1();
+		examples.e2();
 	}
 
 }

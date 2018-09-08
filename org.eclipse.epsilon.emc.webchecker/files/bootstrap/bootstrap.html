@@ -16,7 +16,9 @@
 </head>
 
 <body>
+
     <div class="container">
+        <!-- a media-body div should have a parent div with media class -->
         <div class="media">
             <img class="mr-3" src="https://via.placeholder.com/64x64" alt="Generic placeholder image">
             <div class="media-body">
@@ -28,12 +30,14 @@
         </div>
     </div>
 
+    <!-- a group of buttons should have a parent div with btn-group class -->
     <div class="btn-group" role="group" aria-label="...">
         <button type="button" class="btn btn-secondary">Left</button>
         <button type="button" class="btn btn-secondary">Middle</button>
         <button type="button" class="btn btn-secondary">Right</button>
     </div>
 
+    <!-- col-sm-4 should have a parent div with row class -->
     <div class="col-sm-4">Hi 1</div>
     <div class="row">
         <div class="col-sm-4">Hi 2</div>
@@ -41,6 +45,7 @@
         <div class="col-sm-4">Hi 4</div>
     </div>
 
+    <!-- nav-item must have a parent class of nav -->
     <div>
         <ul class="">
             <li class="nav-item">
@@ -55,6 +60,11 @@
             </li>
         </ul>
     </div>
+
+    <!-- aria-label is needed for screen readers. -->
+    <button type="button" class="close" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
 
 </body>
 

@@ -2,28 +2,35 @@ context t_div {
 	constraint InButtonGroup {
 		guard : self.class.includes("btn-secondary")
 		check : self.parent.classes.includes("btn-group")
-		message : "btn-secondary divs should be contained under btn-group"
+		message : "btn-secondary divs should be contained under btn-group."
 	}
 	constraint RowUnderContainer {
 		guard : self.class.includes("row")
 		check : self.parent.classes.includes("container")
-		message : "row should be under container in Bootstrap"
+		message : "row should be under container."
 	}
 	constraint ColUnderRow {
 		guard : self.class.includes("col-sm-4")
 		check : self.parent.classes.includes("row")
-		message : "col-sm-4 divs should be contained under row"
+		message : "col-sm-4 divs should be contained under row."
 	}
 	constraint Media {
 		guard : self.class.includes("media-body")
 		check : self.parent.classes.includes("media")
-		message : "media-body should be contained under media"
+		message : "media-body should be contained under media."
 	}
 }
 context t_li {
 	constraint NavItemUnderNav {
         guard : self.class.includes("nav-item")
         check : self.parent.classes.includes("nav")
-        message : "nav-item should be contained under nav"
+        message : "nav-item should be contained under nav."
+    }
+}
+context t_button { 
+    constraint ScreenReaderButton {
+        guard : self.class.includes("close")
+        check : self.hasAttr("area-label")
+        message : "A button with class close should have area-label defined for assistive technologies."
     }
 }
