@@ -1,4 +1,4 @@
-context t_div {
+context t_a {
 	constraint InButtonGroup {
 		guard : self.class.includes("btn-large")
 		check : self.parent.classes.includes("btn-group")

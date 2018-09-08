@@ -37,7 +37,7 @@ class GuardedElement {
 		this.element = element;
 	}
 	public boolean includes(String className) {	
-		if (element.getElementsByClass(className).size() > 0) {
+		if (element.hasClass(className)) {
 			return true;
 		} else {
 			return false;
