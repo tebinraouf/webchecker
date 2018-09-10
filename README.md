@@ -9,6 +9,8 @@ Eclipse plugins that extend Epsilon's Model Connectivity (EMC) layer with suppor
 * Clone this repo.
 * Run the `webchecker` project as a Java Application.  
 
+## Extra Rules & Examples
+The **rules** branch has more EVL constraints and examples. When they are stable, the branch will be merged with the **master** branch. **files/Bootstrap/Bootstrap.html** has the HTML examples and **files/Bootstrap/Bootstrap.evl** has a list of EVL constraints.
 
 ## Plugin Components
 Like any other Epsilon plugins, there are two main parts or eclipse projects:
