@@ -66,12 +66,46 @@
         <span aria-hidden="true">&times;</span>
     </button>
 
-	<!-- img tag in a picture tag should have img-* class(es) such as img-fluid -->
-	<picture>
-	  <source media="(min-width: 650px)" srcset="https://via.placeholder.com/600x600">
-	  <source media="(min-width: 465px)" srcset="https://via.placeholder.com/64x64">
-	  <img src="https://via.placeholder.com/100x100" class="" alt="placeholders" style="width:auto;">
-	</picture>
+    <!-- img tag in a picture tag should have img-* class(es) such as img-fluid -->
+    <picture>
+        <source media="(min-width: 650px)" srcset="https://via.placeholder.com/600x600">
+        <source media="(min-width: 465px)" srcset="https://via.placeholder.com/64x64">
+        <img src="https://via.placeholder.com/100x100" class="" alt="placeholders" style="width:auto;">
+    </picture>
+
+    <!-- A table should have a caption for screen readers. -->
+    <table class="table">
+        <!-- <caption>List of users</caption> -->
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">First</th>
+                <th scope="col">Last</th>
+                <th scope="col">Handle</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+            </tr>
+        </tbody>
+    </table>
+
 </body>
 
 </html>

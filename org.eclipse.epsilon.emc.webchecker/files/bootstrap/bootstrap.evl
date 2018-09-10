@@ -41,3 +41,10 @@ context t_img {
         message : "img element in a picture element should have img-* class(es)"
     }
 }
+context t_table { 
+    constraint HasCaption {
+        guard : self.type.exists()
+        check : self.type.hasChild("caption")
+        message : "A table should have a caption tag for screen readers."
+    }
+}

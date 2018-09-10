@@ -4,7 +4,21 @@ import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertyGetter;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Evaluator;
 
-
+class Type {
+	private Element element;
+	public Type(Element element) {
+		this.element = element;
+	}
+	public boolean exists() {
+		return true;
+	}
+	public boolean hasChild(String tagName) {	
+		for (Element e : element.children()) {
+			return e.tagName().equals(tagName);
+		}
+		return false;
+	}
+}
 class Classes {
 	private Element element;
 	public Classes(Element element) {
@@ -86,11 +100,11 @@ public class WebCheckerPropertyGetter extends JavaPropertyGetter {
 		Element element = (Element) object;
 		
 		if (property.equals("class")) {
-			GuardedElement htmlClass = new GuardedElement(element);
-			return htmlClass;	
+			return new GuardedElement(element);
 		} else if (property.equals("parent")) {
-			Parent parent = new Parent(element);
-			return parent;
+			return new Parent(element);
+		} else if (property.equals("type")) {
+			return  new Type(element);
 		} else return null;
 				
 	}
