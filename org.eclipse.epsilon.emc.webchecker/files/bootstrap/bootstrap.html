@@ -66,6 +66,12 @@
         <span aria-hidden="true">&times;</span>
     </button>
 
+	<!-- img tag in a picture tag should have img-* class(es) such as img-fluid -->
+	<picture>
+	  <source media="(min-width: 650px)" srcset="https://via.placeholder.com/600x600">
+	  <source media="(min-width: 465px)" srcset="https://via.placeholder.com/64x64">
+	  <img src="https://via.placeholder.com/100x100" class="" alt="placeholders" style="width:auto;">
+	</picture>
 </body>
 
 </html>

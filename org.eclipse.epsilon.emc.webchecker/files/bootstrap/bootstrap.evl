@@ -34,3 +34,10 @@ context t_button {
         message : "A button with class close should have area-label defined for assistive technologies."
     }
 }
+context t_img { 
+    constraint ImageInPictureWithImgClass {
+        guard : self.parent.is("picture")
+        check : self.class.includes("img-*")
+        message : "img element in a picture element should have img-* class(es)"
+    }
+}
