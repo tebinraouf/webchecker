@@ -55,3 +55,10 @@ context t_table {
         message : "A responsive table should have a parent div with table-responsive-* class(es)."
     }
 }
+context t_figcaption { 
+	constraint ParentHasFigureClass {
+		guard : self.type.exists()
+		check : self.parent.classes.includes("figure") and self.class.includes("figure-caption")
+		message : "A figcaption tag should have a figure parent with figure class and itself should have figure-caption class"
+	}
+}
