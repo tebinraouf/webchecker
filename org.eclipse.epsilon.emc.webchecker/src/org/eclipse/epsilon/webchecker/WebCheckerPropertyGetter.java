@@ -28,14 +28,15 @@ class Classes {
 	public boolean includes(String className) {
 		if (className.endsWith("-*")) {
 			String cn = className.substring(0, className.length() - 1);
-			for (String c : element.classNames()) {
+			//Check the element itself
+			for (String c : element.parent().classNames()) {
 				return c.startsWith(cn);	 
 			}
 		}
-		return (element.hasClass(className) || element.parent().hasClass(className));
+		return element.parent().hasClass(className);
 	}
 }
-
+//parent element of the selected type
 class Parent {
 	private Classes classes;
 	private Element element;
@@ -57,14 +58,12 @@ class Parent {
 	}
 }
 
-
+//Selected type such as t_div, t_img...etc.
 class GuardedElement {
 	private Element element;
-	private Classes classes;
 	
 	GuardedElement(Element element) {
 		this.element = element;
-		classes = new Classes(element);
 	}
 	/**
 	 * Returns true if the element includes the class name, false otherwise. Supports generic class names such as <b>img-*</b>, where <b>*</b> is a wild card.
@@ -80,10 +79,6 @@ class GuardedElement {
 		} 
 		return (element.hasClass(className));
 	}
-	public Classes getClasses() {
-		return classes;
-	}
-	
 	/**
 	 * Convenient method to guard the element class. Always return true.
 	 * @return <code>true</code>
