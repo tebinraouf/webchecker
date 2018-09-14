@@ -34,9 +34,11 @@ class Classes {
 		if (className.endsWith("-*")) {
 			String cn = className.substring(0, className.length() - 1);
 			//Check the element itself
+			boolean doesStart = false;
 			for (String c : element.parent().classNames()) {
-				return c.startsWith(cn);	 
+				doesStart = c.startsWith(cn);	 
 			}
+			return doesStart;
 		}
 		return element.parent().hasClass(className);
 	}
@@ -61,6 +63,9 @@ class Parent {
 	public boolean is(String tagName) {
 		return element.parent().tagName().equals(tagName);
 	}
+	public boolean hasClass(String className) {
+		return element.hasClass(className);
+	}
 }
 
 //Selected type such as t_div, t_img...etc.
@@ -78,9 +83,11 @@ class GuardedElement {
 	public boolean includes(String className) {		
 		if (className.endsWith("-*")) {
 			String cn = className.substring(0, className.length() - 1);
+			boolean doesStart = false;
 			for (String c : element.classNames()) {
-				return c.startsWith(cn);	 
+				doesStart = c.startsWith(cn);	 
 			}
+			return doesStart;
 		} 
 		return (element.hasClass(className));
 	}
