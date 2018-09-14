@@ -70,11 +70,28 @@ class Parent {
 	public boolean hasClass(String className) {
 		return element.parent().hasClass(className);
 	}
-	//FIXME: Does not understand -* such as alert-*. For ex. Should return true if alert-success exists because -* is wild card"
+	/**
+	 * Return <code>true</code> if the parent element contains the classes. Classes here are separated by a space.
+	 * @param className list of class names separated by a space.
+	 * @return
+	 */
 	public boolean hasClasses(String className) {
+		
 		String[] classNames = className.split("\\s+");
 		Set<String> parentClasses = element.parent().classNames();
-		return Arrays.deepEquals(classNames, parentClasses.toArray());
+		
+		boolean doesContain = false;
+		for (String aClass : classNames) {		
+			if (aClass.endsWith("-*")) {
+				String cn = aClass.substring(0, aClass.length() - 1);
+				for (String aParentClass : parentClasses) {
+					doesContain = aParentClass.startsWith(cn);
+				}
+			} else {
+				doesContain = parentClasses.contains(aClass);
+			}
+		}
+		return doesContain;
 	}
 	
 }
