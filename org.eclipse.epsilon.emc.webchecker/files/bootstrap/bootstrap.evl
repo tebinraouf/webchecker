@@ -62,3 +62,17 @@ context t_figcaption {
 		message : "A figcaption tag should have a figure parent with figure class and itself should have figure-caption class"
 	}
 }
+
+context t_div { 
+    constraint DIVWithAlertClass {
+        guard : self.class.includes("alert") or self.class.includes("alert-*")
+        check : self.hasAttr("role")
+        message : "A div element with class alert or alert-* should have the role attribute defined for assistive technologies."
+    }
+    //a more strict constraint than above
+    constraint DIVWithAlertClassAndSrOnly {
+        guard : self.class.includes("alert") or self.class.includes("alert-*")
+        check : self.hasAttr("role") and self.children.hasClass("sr-only")
+        message : "A div element with class alert or alert-* should have the role attribute and at least a child with sr-only class for assistive technologies."
+    }
+}

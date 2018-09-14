@@ -1,7 +1,2 @@
-context t_table { 
-    constraint ResponsiveTable {
-        guard : self.class.includes("table")
-        check : self.parent.classes.includes("table-responsive-*")
-        message : "A responsive table should have a parent div with table-responsive-* class(es)."
-    }
-}
+
+

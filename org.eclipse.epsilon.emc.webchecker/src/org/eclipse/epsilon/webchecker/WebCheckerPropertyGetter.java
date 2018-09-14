@@ -2,7 +2,6 @@ package org.eclipse.epsilon.webchecker;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertyGetter;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Evaluator;
 
 class Type {
 	private Element element;
@@ -16,6 +15,12 @@ class Type {
 		for (Element e : element.children()) {
 			return e.tagName().equals(tagName);
 		}
+		return false;
+	}
+	public boolean hasClass(String className) {
+		for (Element e : element.children()) {
+			return e.hasClass(className);
+		}		
 		return false;
 	}
 }
@@ -98,7 +103,7 @@ public class WebCheckerPropertyGetter extends JavaPropertyGetter {
 			return new GuardedElement(element);
 		} else if (property.equals("parent")) {
 			return new Parent(element);
-		} else if (property.equals("type")) {
+		} else if (property.equals("type") || property.equals("children")) {
 			return  new Type(element);
 		} else return null;
 				
