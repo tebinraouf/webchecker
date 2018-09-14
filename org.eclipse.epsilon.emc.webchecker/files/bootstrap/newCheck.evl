@@ -1,3 +1,10 @@
+context t_h4 { 
+    constraint AlertHeadingInDivWithAlertClass {
+        guard : self.class.includes("alert-heading")
+        check : self.parent.classes.includes("alert") and self.parent.classes.includes("alert-*")
+        message : "A h4 element (h*) with alert-heading class should have a parent element with alert and alert-* class."
+    }
+}
 
 
 
