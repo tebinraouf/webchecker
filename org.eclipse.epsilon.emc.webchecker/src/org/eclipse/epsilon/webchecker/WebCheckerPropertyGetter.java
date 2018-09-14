@@ -1,7 +1,11 @@
 package org.eclipse.epsilon.webchecker;
+import java.util.Arrays;
+import java.util.Set;
+
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertyGetter;
 import org.jsoup.nodes.Element;
+
 
 class Type {
 	private Element element;
@@ -64,8 +68,15 @@ class Parent {
 		return element.parent().tagName().equals(tagName);
 	}
 	public boolean hasClass(String className) {
-		return element.hasClass(className);
+		return element.parent().hasClass(className);
 	}
+	//FIXME: Does not understand -* such as alert-*. For ex. Should return if alert-success exists because -* is wild card"
+	public boolean hasClasses(String className) {
+		String[] classNames = className.split("\\s+");
+		Set<String> parentClasses = element.parent().classNames();
+		return Arrays.deepEquals(classNames, parentClasses.toArray());
+	}
+	
 }
 
 //Selected type such as t_div, t_img...etc.
