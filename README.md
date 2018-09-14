@@ -112,5 +112,8 @@ Validation Errors:
 btn-large divs should be contained under btn-group
 */
 ```
+ 
 
-
+### Future Work
+- Developing a domain-specific language to create and parse rules.
+- Creating a specific type for HTML elements. Currently, this plugin depends on [jsoup: Java HTML Parse](https://jsoup.org/). Although jsoup provides very useful methods to interact with HTML elements, the syntax is long. For example, `self.type.exists()` could be `self.exist()`. Here, `type` is repititive.
