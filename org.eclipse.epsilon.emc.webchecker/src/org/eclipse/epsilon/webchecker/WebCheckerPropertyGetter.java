@@ -70,7 +70,7 @@ class Parent {
 	public boolean hasClass(String className) {
 		return element.parent().hasClass(className);
 	}
-	//FIXME: Does not understand -* such as alert-*. For ex. Should return if alert-success exists because -* is wild card"
+	//FIXME: Does not understand -* such as alert-*. For ex. Should return true if alert-success exists because -* is wild card"
 	public boolean hasClasses(String className) {
 		String[] classNames = className.split("\\s+");
 		Set<String> parentClasses = element.parent().classNames();
