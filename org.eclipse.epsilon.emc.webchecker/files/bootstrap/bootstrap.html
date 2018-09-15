@@ -38,16 +38,19 @@
     </div>
 
     <!-- col-sm-4 should have a parent div with row class -->
-    <div class="col-sm-4">Hi 1</div>
-    <div class="row">
-        <div class="col-sm-4">Hi 2</div>
-        <div class="col-sm-4">Hi 3</div>
-        <div class="col-sm-4">Hi 4</div>
+    <!-- row should be under container. -->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">Hi 1</div>
+            <div class="col-sm-4">Hi 2</div>
+            <div class="col-sm-4">Hi 3</div>
+            <div class="col-sm-4">Hi 4</div>
+        </div>
     </div>
 
     <!-- nav-item must have a parent class of nav -->
     <div>
-        <ul class="">
+        <ul class="nav">
             <li class="nav-item">
                 <a class="nav-link active" href="#">Active</a> </li>
             <li class="nav-item">
@@ -70,12 +73,12 @@
     <picture>
         <source media="(min-width: 650px)" srcset="https://via.placeholder.com/600x600">
         <source media="(min-width: 465px)" srcset="https://via.placeholder.com/64x64">
-        <img src="https://via.placeholder.com/100x100" class="" alt="placeholders" style="width:auto;">
+        <img src="https://via.placeholder.com/100x100" class="img-fluid" alt="placeholders" style="width:auto;">
     </picture>
 
     <!-- A table should have a caption for screen readers. -->
     <table class="table">
-        <!-- <caption>List of users</caption> -->
+        <caption>List of users</caption>
         <thead>
             <tr>
                 <th scope="col">#</th>
@@ -108,7 +111,7 @@
 
 
     <!-- for a responsive table, the parent div should have a table-responsive-* class(es) such as table-responsive-sm -->
-    <div class="">
+    <div class="table-responsive-sm">
         <table class="table">
             <caption>This is a sample table</caption>
             <thead>
