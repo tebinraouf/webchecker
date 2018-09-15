@@ -30,8 +30,8 @@ context t_li {
 context t_button { 
     constraint ScreenReaderButton {
         guard : self.class.includes("close")
-        check : self.hasAttr("area-label")
-        message : "A button with class close should have area-label defined for assistive technologies."
+        check : self.hasAttr("aria-label")
+        message : "A button with class close should have aria-label defined for assistive technologies."
     }
 }
 context t_img { 
@@ -95,5 +95,12 @@ context t_h4 {
         guard : self.class.includes("alert-heading")
         check : self.parent.hasClasses("alert alert-*") //hasClasses accept multiple classes separated by a space.
         message : "An h4 element (h*) with alert-heading class should have a parent element with alert and alert-* class."
+    }
+}
+context t_button { 
+    constraint DismissButtonRelation {
+        guard : self.parent.hasClass("alert") and self.hasClass("close")
+        check : self.hasAttr("data-dismiss")
+        message : "A button in a div element with alert class should have a data-dismiss attribute."
     }
 }

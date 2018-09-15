@@ -1,5 +1,4 @@
 package org.eclipse.epsilon.webchecker;
-import java.util.Arrays;
 import java.util.Set;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
