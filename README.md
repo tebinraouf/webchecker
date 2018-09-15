@@ -117,3 +117,15 @@ btn-large divs should be contained under btn-group
 ### Future Work
 - Developing a domain-specific language to create and parse rules.
 - Creating a specific type for HTML elements. Currently, this plugin depends on [jsoup: Java HTML Parse](https://jsoup.org/). Although jsoup provides very useful methods to interact with HTML elements, the syntax is long. For example, `self.type.exists()` could be `self.exist()`. Here, `type` is repititive.
+- Selecting HTML by an attribute (i.e. attribute selector in CSS). Currently, the plugin doesn't support an EVL constraint by using an attribute selector such as data-dismiss. For example, consider the following HTML code:
+    ```html
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    ```
+    Currently, `t_div`, `t_button`, `t_strong`, and `t_span` contexts selects (extracts) each section of the HTML code. `t_[htmlElement]`, where `[htmlElement]` is the HTML element. However, it will be useful to select the button by its attribite such as `data-dismiss`. `a_data-dismiss` should select all elements that have `data-dismiss` attribute. 
+
+    This is useful because there are constraint relations between the attribute and the type. In the above HTML code, whenever a `data-dismiss` attribute is used in a `div` with class `alert`, the element of the `data-dismiss` should be a button not an input.  
