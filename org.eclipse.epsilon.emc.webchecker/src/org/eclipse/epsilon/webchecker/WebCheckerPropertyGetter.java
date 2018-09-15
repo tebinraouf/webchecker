@@ -4,15 +4,25 @@ import java.util.Set;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertyGetter;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
-
-class Type {
+abstract class CustomElement {
 	private Element element;
-	public Type(Element element) {
+
+	public CustomElement(Element element) {
 		this.element = element;
 	}
-	public boolean exists() {
-		return true;
+	public Element getElement() {
+		return element;
+	}
+	public void setElement(Element element) {
+		this.element = element;
+	}
+	public boolean hasClass(String className) {
+		if (element != null) {
+			return element.hasClass(className);
+		} 
+		return false;
 	}
 	public boolean hasChild(String tagName) {	
 		for (Element e : element.children()) {
@@ -20,11 +30,36 @@ class Type {
 		}
 		return false;
 	}
-	public boolean hasClass(String className) {
-		for (Element e : element.children()) {
-			return e.hasClass(className);
-		}		
+	public boolean exists() {
+		return true;
+	}
+	public Elements getChildren() {
+		return element.children();
+	}
+	public boolean childrenHasClass(String className) {
+		for (Element element : getChildren()) {
+			return element.hasClass(className);
+		}
 		return false;
+	}
+}
+
+
+class Sibling extends CustomElement {
+	public Sibling(Element element) {
+		super(element);
+	}
+}
+
+class Type extends CustomElement {
+	public Type(Element element) {
+		super(element);
+	}
+	public Sibling getPreviousSibling() {	
+		return new Sibling(getElement().previousElementSibling());
+	}
+	public Sibling getNextSibling() {		
+		return new Sibling(getElement().nextElementSibling());
 	}
 }
 class Classes {
@@ -137,6 +172,8 @@ public class WebCheckerPropertyGetter extends JavaPropertyGetter {
 			return new GuardedElement(element);
 		} else if (property.equals("parent")) {
 			return new Parent(element);
+		} else if (property.equals("sibling")) {
+			return new Sibling(element);
 		} else if (property.equals("type") || property.equals("children")) {
 			return  new Type(element);
 		} else return null;

@@ -72,7 +72,7 @@ context t_div {
     //a more strict constraint than above
     constraint DIVWithAlertClassAndSrOnly {
         guard : self.class.includes("alert") or self.class.includes("alert-*")
-        check : self.hasAttr("role") and self.children.hasClass("sr-only")
+        check : self.hasAttr("role") and self.type.childrenHasClass("sr-only")
         message : "A div element with class alert or alert-* should have the role attribute and at least a child with sr-only class for assistive technologies."
     }
 }
@@ -102,5 +102,12 @@ context t_button {
         guard : self.parent.hasClass("alert") and self.hasClass("close")
         check : self.hasAttr("data-dismiss")
         message : "A button in a div element with alert class should have a data-dismiss attribute."
+    }
+}
+context t_span { 
+    constraint BadgeClassSiblingRelation {
+        guard   : self.class.includes("badge") and self.class.includes("badge-*")
+        check   : self.type.previousSibling.hasClass("sr-only") or self.type.nextSibling.hasClass("sr-only")
+        message : "A span element with badge and badge-* class should have an immediate sibling element with sr-only class for screen readers and assistive technologies."
     }
 }

@@ -201,6 +201,11 @@
         </button>
     </div>
 
+    <!-- A span element with badge and badge-* class should have an immediate sibling element with sr-only class for screen readers and assistive technologies. -->
+    <button type="button" class="btn btn-primary">
+        Profile <span class="badge badge-light">9</span>
+        <span class="sr-only">unread messages</span>
+    </button>
 </body>
 
 </html>
