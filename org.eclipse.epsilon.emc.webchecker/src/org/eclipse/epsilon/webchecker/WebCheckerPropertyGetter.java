@@ -36,11 +36,17 @@ abstract class CustomElement {
 	public Elements getChildren() {
 		return element.children();
 	}
+	//FIXME: should return true for both "a b" or "b a". These two classes are the same
 	public boolean childrenHasClass(String className) {
+		boolean hs = false;
 		for (Element element : getChildren()) {
-			return element.hasClass(className);
+			hs = element.hasClass(className);
+			break;
 		}
-		return false;
+		return hs;
+	}
+	public boolean hasAttr(String attrName) {
+		return element.hasAttr(attrName);
 	}
 }
 
@@ -60,6 +66,9 @@ class Type extends CustomElement {
 	}
 	public Sibling getNextSibling() {		
 		return new Sibling(getElement().nextElementSibling());
+	}
+	public Type getLastChild() {
+		return new Type(getElement().children().last());
 	}
 }
 class Classes {
@@ -126,6 +135,9 @@ class Parent {
 			}
 		}
 		return doesContain;
+	}
+	public boolean hasAttr(String attrName) {
+		return element.parent().hasAttr(attrName);
 	}
 	
 }

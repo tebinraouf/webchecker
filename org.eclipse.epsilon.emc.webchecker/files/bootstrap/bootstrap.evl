@@ -111,3 +111,22 @@ context t_span {
         message : "A span element with badge and badge-* class should have an immediate sibling element with sr-only class for screen readers and assistive technologies."
     }
 }
+context t_ol { 
+    constraint BreadcrumbArea {
+        guard : self.class.includes("breadcrumb")
+        check : self.parent.hasAttr("aria-label") and self.parent.is("nav")
+        message : "An ol element with breadcrumb class should have 1) a parent element with aria-label attribute defined, and 2) the parent element should be a nav element (optional)."
+    }
+}
+context t_li { 
+    constraint LIActiveBreadcrumb {
+        guard : self.class.includes("breadcrumb-item") and self.class.includes("active")
+        check : self.hasAttr("aria-current")
+        message : "An li element with breadcrumb-item and active class should define aria-current attribute."
+    }
+    constraint LIParentBreadcrumb {
+        guard : self.class.includes("breadcrumb-item")
+        check : self.parent.hasClass("breadcrumb")
+        message : "An li element with breadcrumb-item should have a parent with breadcrumb class."
+    }
+}
