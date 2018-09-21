@@ -4,6 +4,7 @@ import java.util.Set;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertyGetter;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
 abstract class CustomElement {
@@ -47,6 +48,9 @@ abstract class CustomElement {
 	}
 	public boolean hasAttr(String attrName) {
 		return element.hasAttr(attrName);
+	}
+	public boolean is(String tagName) {
+		return element.tagName().equals(tagName);
 	}
 }
 

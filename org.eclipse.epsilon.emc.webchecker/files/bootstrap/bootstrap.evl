@@ -130,3 +130,10 @@ context t_li {
         message : "An li element with breadcrumb-item should have a parent with breadcrumb class."
     }
 }
+context t_a { 
+    constraint CheckBtnClass {
+        guard : self.class.includes("btn")
+        check : self.type.is("button") or (self.attr("role") == "button")
+        message : "Warnning: btn classes are designed to be used with the <button> element. If they are used with <a> elements, the role attribute should be defined and the value should be button."
+    }
+}
