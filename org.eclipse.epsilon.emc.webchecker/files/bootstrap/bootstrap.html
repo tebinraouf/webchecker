@@ -229,6 +229,31 @@
     <!-- Warnning: btn classes are designed to be used with the <button> element. -->
     <input class="btn btn-primary" type="button" value="Input">
 
+
+    <!-- An a element with btn and active classes should define aria-pressed attribute to true for assistive technologies. -->
+    <a href="#" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Primary link</a>
+
+
+    <!-- An a element with btn and disabled classes should define aria-disabled attribute to true for assistive technologies. -->
+    <a href="#" class="btn btn-primary btn-lg disabled" tabindex="-1" role="button" aria-disabled="true">Primary link</a>
+
+
+    <!-- An a element with btn and disabled classes should define tabindex attribute to -1 to prevent keyboard focus for sigted keyboard users and users of assistive technologies. Also, JS should be added to disable the link functionality. -->
+    <a href="#" class="btn btn-primary btn-lg disabled" tabindex="-1" role="button" aria-disabled="true">Primary link</a>
+
+    <!--  -->
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        <label class="btn btn-secondary active">
+            <input type="radio" name="options" id="option1" autocomplete="off" checked> Active
+        </label>
+        <label class="btn btn-secondary">
+            <input type="radio" name="options" id="option2" autocomplete="off"> Radio
+        </label>
+        <label class="btn btn-secondary">
+            <input type="radio" name="options" id="option3" autocomplete="off"> Radio
+        </label>
+    </div>
+
 </body>
 
 </html>

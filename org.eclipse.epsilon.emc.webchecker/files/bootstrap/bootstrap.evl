@@ -1,9 +1,4 @@
 context t_div { 
-	constraint InButtonGroup {
-		guard : self.class.includes("btn-secondary")
-		check : self.parent.classes.includes("btn-group")
-		message : "btn-secondary divs should be contained under btn-group."
-	}
 	constraint RowUnderContainer {
 		guard : self.class.includes("row")
 		check : self.parent.classes.includes("container")
@@ -144,3 +139,35 @@ context t_input {
         message : "Warnning: btn classes are designed to be used with the <button> element."
     }
 }
+
+context t_a { 
+    constraint ActiveAElementWithBtnClass {
+        guard : self.hasClass("btn") and self.hasClass("active") 
+        check : (self.attr("aria-pressed") == "true")
+        message : "An a element with btn and active classes should define aria-pressed attribute to true for assistive technologies."
+    }
+    constraint DisableAElementWithBtnClass {
+        guard : self.hasClass("btn") and self.hasClass("disabled") 
+        check : (self.attr("aria-disabled") == "true")
+        message : "An a element with btn and disabled classes should define aria-disabled attribute to true for assistive technologies."
+    }
+    constraint DisableAElementWithBtnClassTabIndex {
+        guard : self.hasClass("btn") and self.hasClass("disabled") 
+        check : (self.attr("tabindex") == "-1")
+        message : "An a element with btn and disabled classes should define tabindex attribute to -1 to prevent keyboard focus for sigted keyboard users and users of assistive technologies. Also, JS should be added to disable the link functionality."
+    }
+}
+context t_div { 
+    constraint BtnGroupToggle {
+        guard : self.hasClass("btn-group-toggle")
+        check : self.attr("data-toggle") == "buttons"
+        message : "A div element with btn-group-toggle should define data-toggle attribute to buttons to make toggling the inputs work."
+    }
+    constraint InButtonGroup {
+		guard : self.class.includes("btn-secondary")
+		check : self.parent.classes.includes("btn-group")
+		message : "btn-secondary divs should be contained under btn-group."
+	}
+}
+
+
