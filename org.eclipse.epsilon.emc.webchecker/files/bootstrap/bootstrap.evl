@@ -137,3 +137,10 @@ context t_a {
         message : "Warnning: btn classes are designed to be used with the <button> element. If they are used with <a> elements, the role attribute should be defined and the value should be button."
     }
 }
+context t_input { 
+    constraint CheckBtnClass {
+        guard : self.class.includes("btn")
+        check : self.type.is("button")
+        message : "Warnning: btn classes are designed to be used with the <button> element."
+    }
+}
