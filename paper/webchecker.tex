@@ -48,7 +48,7 @@ University of York\\
 Deramore Lane, York, YO10 5GH, UK.\\
 dimitris.kolovos@york.ac.uk}
 \and
-\IEEEauthorblockN{Tebin Raouf}
+\IEEEauthorblockN{Tebin M. Raouf}
 \IEEEauthorblockA{Computer Science Dept.\\
 College of Staten Island, CUNY\\
 Staten Island, NY 11314, U.S.A.\\
@@ -64,7 +64,7 @@ xiaowen.zhang@csi.cuny.edu}}
 \maketitle
 
 \begin{abstract}
-WebChecker is an Epsilon Validation Language (EVL) \cite{Kolovos2009} plugin to validate static and dynamic HTML pages by writing configurable EVL constraints. WebChecker is used for enforcing implicit rules of HTML and CSS frameworks. To show the effectiveness of the plugin, we choose Bootstrap \cite{Bootstrap}, the world's most popular HTML, CSS, and JavaScript framework. The plugin comes with an exhaustive list of EVL constraints for checking web pages built with Bootstrap. The bulk of the paper is devoted to WebChecker: what it is and how it is implemented.
+WebChecker is an Epsilon Validation Language (EVL) plugin to validate static and dynamic HTML pages that uses frameworks such as Bootstrap by writing configurable EVL constraints. WebChecker is used for enforcing implicit rules of HTML and CSS frameworks. To show the effectiveness of the plugin, we choose Bootstrap, the world's most popular HTML, CSS, and JavaScript framework. The plugin comes with an exhaustive list of EVL constraints for checking web pages built with Bootstrap. To support our argument, we present a concrete example with two solutions for enforcing implicit rules.  
 \end{abstract}
 
 \vspace{1em} \emph{\textbf{Keywords-\small Lint, Web Lint, EVL, Epsilon, HTML, Java, Bootstrap. }}
@@ -73,11 +73,11 @@ WebChecker is an Epsilon Validation Language (EVL) \cite{Kolovos2009} plugin to 
 
 In the current state of web development, there are many HTML and CSS frameworks that come with implicit rules. These rules are developed for better use of such frameworks. However, the caveat is to read their documentations carefully to capture such constraints and rules. This could be quite a tedious work. WebChecker is built to capture such rules so that consumers of these framework can easily check their web pages for the conformance of such rules. 
 
-The rest of the paper is structured as follows: Section II explains the problem and the current state of art solution and its limitation that motivated this project. In section III, we explain the WebChecker plugin, its syntax and features, and we show our solution for the problem. We compare the current solution and our solution of the problem and its improvements in Section IV. In Section V, we discuss related work. Lastly, Section VI concludes the paper and outlines the future of the plugin and future work to enhance the plugin.  
+The rest of the paper is structured as follows: Section II explains the problem and the current state of art solution and its limitation that motivated this project. In section III, we explain the WebChecker plugin and we show our solution for the problem. We compare the current solution and our solution of the problem and its improvements in Section IV. In Section V, we discuss related work. Lastly, Section VI concludes the paper and outlines the future of the plugin and future work to enhance the plugin.  
 
 \section{Background and Motivation}
 
-Frameworks such as Bootstrap come with a handful number of implicit rules. While developing this project, we captured more than a couple of dozen rules for the Bootstrap framework. These rules should be followed in order to use the framework properly. These rules are created by the developers of such frameworks and explained in the framework’s documentation. Users of such frameworks should carefully read the documentations in order to understand how to use the framework. This process can be quite long and tedious and prone to errors. Given a set of rules, currently there is not a straightforward process to check if they are enforced against the HTML pages. At least, there is not an easy way that requires minimum effort and very little code. After collecting the rules, the current solution flow is as follows:
+Frameworks such as Bootstrap come with a handful number of implicit rules. While developing this project, we captured more than a couple of dozen rules for the Bootstrap framework. These rules should be followed in order to use the framework properly. These rules are created by the developers of such frameworks and explained in the framework’s documentation in natural language. Users of such frameworks should carefully read the documentations in order to understand how to use the framework. This process can be quite long and tedious and prone to errors. Given a set of rules, currently there is not a straightforward process to check if they are enforced against the HTML pages. At least, there is not an easy way that requires minimum effort and very little code. After collecting the rules, the current solution flow is:
 1. Read the HTML page. 
 2. Translate each rule into a method. 
 3. Check the rule against the HTML page.
@@ -159,10 +159,10 @@ WebChecker follows \textit{separation of concern} principle with writing minimum
 \end{lstlisting}
 
 \subsection{WebChecker EVL Structure}
-The WebChecker EVL structure follows the same standard EVL structure. 
+The WebChecker EVL structure follows the same EVL structure \cite{Kolovos2009}. However, here we only explain the syntax used by WebChecker. 
 \begin{itemize}
 \item \textit{Context}: an EVL file could have one or more contexts. To capture an HTML element, a context should start with \textit{t\_}, for \textit{type}, followed by the name of the HTML element such as \textit{t\_div}, \textit{t\_picture}, \textit{t\_section}, \textit{t\_button}, and etc.
-\item \textit{Constraint}: each \textit{Context} could have one or more constraints. A \textit{constraint} has a name and is used to enforce a rule. Each \textit{constraint} have three sections \textit{guard}, \textit{check}, and \textit{message}. Optionally, an EVL constraint could have a \textit{fix} section, where the model is fixed if the constraint does not satisfy. Currently, WebChecker does utilize this feature.
+\item \textit{Constraint}: each \textit{Context} could have one or more constraints. A \textit{constraint} has a name and is used to name the constraint. Each \textit{constraint} have three sections \textit{guard}, \textit{check}, and \textit{message}. Optionally, an EVL constraint could have a \textit{fix} section, where the model is fixed if the constraint does not satisfy. Currently, WebChecker does utilize this feature.
 \item \textit{guard}: this block captures a specific section of the context for checking. \textit{guard} must return a boolean value. If true, the \textit{check} block is executed. The \textit{guard} block accepts compound boolean statements by using \textit{and} and \textit{or}.      
 \end{itemize}
 
@@ -185,15 +185,21 @@ context t_div {
 
 \begin{itemize}
 \item \textit{check}: this block \textit{check}s if the constraint is satisfied. Expressions in this block must return a boolean value. If the expression returns true, the constraint is satisfied and hence the \textit{message} block is not executed. Similarly as the \textit{guard} block, this block accepts compound boolean statements.
-\item \textit{message}: this block returns a message if the constraint is not satisfied. WebChecker provides a convenient method to capture all unsatified constraints shown in Line 15 of Listing \ref{lst:webcheckerSolution}.  
+\item \textit{message}: this block returns a message if the constraint is not satisfied. WebChecker provides a convenient method to capture all unsatified constraints' messages shown in Line 15 of Listing \ref{lst:webcheckerSolution}.  
 \end{itemize}
 
-\subsection{WebChecker Features}
-
-
-
 \section{Improvements over Current Solution}
-This section compares and evaluate WebChecker to the current solution.
+As shown from the example above, WebChecker is built to be easy to use, modular, readable, and configurable. In particular, WebChecker provides an abstract class, \textit{WebChecker},  to interact with the underlying model. While users can (should) use the \textit{WebChecker} class, they are not restricted to use the \textit{WebCheckerModel} class, which implements CachedModel of EMC. While \textit{WebCheckerModel} requires background knowledge on Epsilon, it could be very powerful and configurable. The WebChecker abstract class allows a user to focus on the constraints rather than writing code, which saves time and resources. WebChecker modularity allows it to be reusable and extensible. If new framework rules are in place, WebChecker can be modified or extended to support such rules. 
+
+Furthermore, code written like Listing \ref{lst:ebgr} is prone to errors and confusing, which makes the code unreadable to none technical stakeholders such as managers and web designers. WebChecker's EVL constraints are easy to reason about and require very little knowledge. 
+
+Line 3 of Listing \ref{lst:ebgr} uses \textit{jsoup: Java HTML Parser}\cite{jsoup} library to parse the HTML file into \textit{jsoup's Element} objects. While \textit{jsoup} is very powerful, it is irrelevant in this context because a user does not need to learn a new library that is unrelated to a validation task. How the HTML file is parsed into objects should be done internally. WebChecker abstracts this by having the user only set the source of the HTML file as shown in Line 10 of Listing \ref{lst:linkEVLAndHTML}.           
+
+
+The \textit{for-loop} and the \textit{try-catch} block in Listing \ref{lst:ebgr} are the least important to the user. WebChecker improves this by introducing a clear readable structure as explained in the WebChecker EVL Structure section above.  
+
+
+
 
 \section{Related Work}
 
