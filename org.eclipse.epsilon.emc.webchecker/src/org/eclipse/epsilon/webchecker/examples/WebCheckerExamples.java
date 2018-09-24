@@ -1,9 +1,15 @@
 package org.eclipse.epsilon.webchecker.examples;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import org.eclipse.epsilon.webchecker.WebChecker;
 import org.eclipse.epsilon.webchecker.browser.Browser;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -58,5 +64,26 @@ public class WebCheckerExamples {
 	}
 	public void e3() {
 		
+	}
+	public void plainJava() {
+		//This is an example of using plain Java to check constraints. This is used to compare Plain Java vs. WebChecker driver 
+		File input = new File("files/bootstrap/newCheck.html");
+		try {
+			Document doc = Jsoup.parse(input, "UTF-8");
+			Elements elments = doc.getElementsByTag("div");
+			for (Element element : elments) {
+				if (element.hasClass("col-sm-4")) {					
+					if (!element.parent().hasClass("row")) {
+						System.out.println("A div element with class col should have a parent element with class row");
+					} else {
+						if (!element.parent().parent().hasClass("container")) {
+							System.out.println("A div element with class col should have a parent element with class row, which has a parent with class container.");
+						}
+					}
+				}
+			}		
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

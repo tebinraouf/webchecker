@@ -1,0 +1,201 @@
+\documentclass[conference]{IEEETran}
+
+\usepackage[hmargin=.75in,vmargin=1in]{geometry}
+\usepackage[american]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{times}
+\usepackage{caption}
+\usepackage[]{algorithm2e}
+\usepackage{textcomp}
+\usepackage{epsfig,graphicx}
+\usepackage{xcolor}
+\usepackage{amsfonts,amsmath,amssymb}
+\usepackage{fixltx2e} % Fixing numbering problem when using figure/table*
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage[utf8]{inputenc}
+\usepackage{supertabular}
+\usepackage{listings}
+\usepackage{cite}
+\usepackage{url}
+
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstset
+{ %Formatting for code in appendix
+    language=HTML,
+    backgroundcolor=\color{backcolour},
+    basicstyle=\footnotesize,
+    numbers=left,
+    stepnumber=1,
+    numbersep=1pt,
+    showstringspaces=false,
+    tabsize=1,
+    breaklines=true,
+    breakatwhitespace=false,
+    captionpos=b,
+}
+\columnsep 6mm  %%% DO NOT CHANGE THIS
+
+% this will give huge title fonts in two rows
+%\title{Parallel Hash Collision Search by Rho Method with Distinguished Points}
+
+\title{\Large{\bf{WebChecker: An Epsilon Validation Language Plugin}}} % removed \bf \bfseries for authors
+
+\author{\IEEEauthorblockN{Tebin Raouf}
+\IEEEauthorblockA{Computer Science Dept.\\
+College of Staten Island, CUNY\\
+Staten Island, NY 11314, U.S.A.\\
+tebin.raouf@cix.csi.cuny.edu}
+\and
+\IEEEauthorblockN{Xiaowen Zhang}
+\IEEEauthorblockA{Computer Science Dept.\\
+College of Staten Island, CUNY\\
+Staten Island, NY 11314, U.S.A.\\
+xiaowen.zhang@csi.cuny.edu\\
+Corresponding Author}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+WebChecker is an Epsilon Validation Language (EVL) \cite{Kolovos2009} plugin to validate static and dynamic HTML pages by writing configurable EVL constraints. WebChecker is used for enforcing implicit rules of HTML and CSS frameworks. To show the effectiveness of the plugin, we choose Bootstrap \cite{Bootstrap}, the world's most popular HTML, CSS, and JavaScript framework. The plugin comes with an exhaustive list of EVL constraints for checking web pages built with Bootstrap. The bulk of the paper is devoted to WebChecker: what it is and how it is implemented.
+\end{abstract}
+
+\vspace{1em} \emph{\textbf{Keywords-\small Lint, Web Lint, EVL, Epsilon, HTML, Java, Bootstrap. }}
+
+\section{Introduction}
+
+In the current state of web development, there are many HTML and CSS frameworks that come with implicit rules. These rules are developed for better use of such frameworks. However, the caveat is to read their documentations carefully to capture such constraints and rules. This could be quite a tedious work. WebChecker is built to capture such rules so that consumers of these framework can easily check their web pages for the conformance of such rules. 
+
+The rest of the paper is structured as follows: Section II explains the problem and the current state of art solution and its limitation that motivated this project. In section III, we explain the WebChecker plugin, its syntax and features, and we show our solution for the problem. We compare the current solution and our solution of the problem and its improvements in Section IV. In Section V, we discuss related work. Lastly, Section VI concludes the paper and outlines the future of the plugin and future work to enhance the plugin.  
+
+\section{Background and Motivation}
+
+Frameworks such as Bootstrap come with a handful number of implicit rules. While developing this project, we captured more than a couple of dozen rules for the Bootstrap framework. These rules should be followed in order to use the framework properly. These rules are created by the developers of such frameworks and explained in the framework’s documentation. Users of such frameworks should carefully read the documentations in order to understand how to use the framework. This process can be quite long and tedious and prone to errors. Given a set of rules, currently there is not a straightforward process to check if they are enforced against the HTML pages. At least, there is not an easy way that requires minimum effort and very little code. After collecting the rules, the current solution flow is as follows:
+1. Read the HTML page. 
+2. Translate each rule into a method. 
+3. Check the rule against the HTML page.
+4. Repeat 1-3 for every rule.
+For example, in Bootstrap, any content should be under a \textit{<div>} element with class \textit{col}, which should be under a \textit{<div>} element with class \textit{row}, which should be under another \textit{<div>} element with class \textit{container}. The HTML code sample is at Listing \ref{lst:bge}.  
+
+\begin{lstlisting}[language=HTML, caption=Bootstrap Grid Example, label={lst:bge}]
+<!-- newCheck.html -->
+<div class="container">
+  <div class="row">
+    <div class="col">
+      Column One
+    </div>
+    <div class="col">
+      Column Two
+    </div>
+    <div class="col">
+      Column Three
+    </div>
+  </div>
+</div>
+\end{lstlisting}
+
+To enforce this rule, the current state of the art solution is given in Listing \ref{lst:ebgr}. Since the plugin is written in Java, we choose it as our programming language of choice to implement this solution. However, any programming languages can be used. Some of which might take more or less coding. Listing \ref{lst:ebgr} shows, for enforcing the rule in Listing \ref{lst:bge}, the code can become lengthy and unreadable, which makes the logic confusing to reason about. It is also difficult to reuse and maintain this code since each rule has its own requirements and structure. Depending on the rules, it is likely to have more nested \textit{if statements}. Furthermore, the solution is not configurable. That is, it is difficult to make changes without breaking the code logic. This approach requires framework developers and users to spend quite some time to write similar code as Listing \ref{lst:ebgr} to enforce rules and constraints, and write documentations for such code.   
+
+The above difficulties have motivated us to implement a plugin, WebChecker, for the Epsilon Validation Language (EVL) \cite{Kolovos2009}.  This plugin is designed for enforcing rules and constraints for any frameworks such as Bootstrap. With WebChecker, 1) a static or dynamic HTML file, 2) an HTML web page through its URL, and 3) a specific section of an HTML page can be checked for conformance. This plugin provides EVL constraint reusability across multiple projects and improves readability. Framework users and developers are able to focus on the rules and constraints. The next section explains WebChecker in more details.    
+
+\begin{lstlisting}[language=Java, caption=Enforcing Bootstrap Grid Rule, label={lst:ebgr}]
+		File input = new File("files/bootstrap/newCheck.html");
+		try {
+			Document doc = Jsoup.parse(input, "UTF-8");
+			Elements elments = doc.getElementsByTag("div");
+			for (Element element : elments) {
+				if (element.hasClass("col-sm-4")) {					
+					if (!element.parent().hasClass("row")) {
+						System.out.println("A div element with class col should have a parent element with class row");
+					} else {
+						if (!element.parent().parent().hasClass("container")) {
+							System.out.println("A div element with class col should have a parent element with class row, which has a parent with class container.");
+						}
+					}
+				}
+			}		
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+\end{lstlisting}
+
+
+\section{WebChecker Plugin}
+Epsilon Validation Language (EVL) \cite{Kolovos2009} is one of the languages of Epsilon \cite{EpsilonProject}, which is an Eclipse project that provides languages for model managements such as model validation, model transformation, code generation, pattern matching, model merging and etc. In the context of WebChecker, a model is an HTML page or a section of the page. WebChecker implements Epsilon Model Connectivity (EMC) layer to access the underlying EVL features. Therefore, EVL users can use the features of WebChecker without setting up a new infrastructure or installing new software.      
+
+\subsection{WebChecker}
+The WebChecker flow, after collecting the constraints, is: 
+1) Write an EVL constraint.
+2) Choose the HTML source (i.e. an HTML file, URL, or section of HTML).
+These two steps are modular and readable. Listing \ref{lst:webcheckerSolution} is an example of EVL file, which shows the solution for Listing \ref{lst:bge}. 
+
+WebChecker follows \textit{separation of concern} principle with writing minimum code. In particular, there is an EVL source file and an HTML source, which could be an HTML file or its URI. The EVL file that contains the constraints such as Listing \ref{lst:webcheckerSolution} is run against the HTML source. Listing \ref{lst:linkEVLAndHTML} shows this connection. Line 15 of Listing \ref{lst:linkEVLAndHTML} shows how to handle errors returned from the EVL constraints. This way the framework user and developer can only focus on constraints that do not satisfy.   
+
+\begin{lstlisting}[language=Java, caption=Checking an EVL file against an HTML source file, label={lst:linkEVLAndHTML}]
+ 	//newCheck.java    
+		//Step 1: Get the source to be validated
+		String html = "files/bootstrap/newCheck.html";
+		
+		//Step 2: Write your validation using Epsilon Validation Language
+		String evl = "files/bootstrap/newCheck.evl";
+		
+		//Step 3: Check the validation against the html in step 1
+		WebChecker checker = new WebChecker();
+		checker.setSource(html);
+		checker.setValidation(evl);
+		checker.check();
+		
+		//Step 4: Check the result
+		List<String> errors = checker.errors();
+
+
+\end{lstlisting}
+
+\subsection{WebChecker EVL Structure}
+The WebChecker EVL structure follows the same standard EVL structure. 
+\begin{itemize}
+\item \textit{Context}: an EVL file could have one or more contexts. To capture an HTML element, a context should start with \textit{t\_}, for \textit{type}, followed by the name of the HTML element such as \textit{t\_div}, \textit{t\_picture}, \textit{t\_section}, \textit{t\_button}, and etc.
+\item \textit{Constraint}: each \textit{Context} could have one or more constraints. A \textit{constraint} has a name and is used to enforce a rule. Each \textit{constraint} have three sections \textit{guard}, \textit{check}, and \textit{message}. Optionally, an EVL constraint could have a \textit{fix} section, where the model is fixed if the constraint does not satisfy. Currently, WebChecker does utilize this feature.
+\item \textit{guard}: this block captures a specific section of the context for checking. \textit{guard} must return a boolean value. If true, the \textit{check} block is executed. The \textit{guard} block accepts compound boolean statements by using \textit{and} and \textit{or}.      
+\end{itemize}
+
+\begin{lstlisting}[language=Java, caption=Enforcing Bootstrap Grid Rule by Using WebChecker, label={lst:webcheckerSolution}]
+//newCheck.evl
+context t_div { 
+    constraint DivWithColHasRowParent {
+        guard : self.class.includes("col-*")
+        check : self.parent.hasClass("row") and self.parent.is("div")
+        message : "A <div> element with class col should have a parent <div> element with class row."
+    }
+    constraint DivWithRowHasContainerParent {
+        guard : self.class.includes("row")
+        check : self.parent.hasClass("container") and self.parent.is("div")
+        message : "A <div> element with class col should have a parent <div> element with class row."
+    }
+}
+
+\end{lstlisting}
+
+\begin{itemize}
+\item \textit{check}: this block \textit{check}s if the constraint is satisfied. Expressions in this block must return a boolean value. If the expression returns true, the constraint is satisfied and hence the \textit{message} block is not executed. Similarly as the \textit{guard} block, this block accepts compound boolean statements.
+\item \textit{message}: this block returns a message if the constraint is not satisfied. WebChecker provides a convenient method to capture all unsatified constraints shown in Line 15 of Listing \ref{lst:webcheckerSolution}.  
+\end{itemize}
+
+\subsection{WebChecker Features}
+
+
+
+\section{Improvements over Current Solution}
+This section compares and evaluate WebChecker to the current solution.
+
+\section{Related Work}
+
+
+\section{Conclusion and Future Work}
+
+
+\bibliography{References} 
+\bibliographystyle{ieeetr}
+
+\end{document}

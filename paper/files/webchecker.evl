@@ -1,0 +1,12 @@
+context t_div { 
+    constraint DivWithColHasRowParent {
+        guard : self.class.includes("col-*")
+        check : self.parent.hasClass("row") and self.parent.is("div")
+        message : "A <div> element with class col should have a parent <div> element with class row."
+    }
+    constraint DivWithRowHasContainerParent {
+        guard : self.class.includes("row")
+        check : self.parent.hasClass("container") and self.parent.is("div")
+        message : "A <div> element with class col should have a parent <div> element with class row."
+    }
+}

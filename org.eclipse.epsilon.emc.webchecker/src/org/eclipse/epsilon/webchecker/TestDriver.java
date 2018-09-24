@@ -9,6 +9,7 @@ public class TestDriver {
 		WebCheckerExamples examples = new WebCheckerExamples();
 //		examples.e1();
 		examples.e2();
+		examples.plainJava();
 	}
 
 }
