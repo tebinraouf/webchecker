@@ -71,7 +71,7 @@ WebChecker is an Epsilon Validation Language (EVL) plugin to validate static and
 
 \section{Introduction}
 
-In the current state of web development, there are many HTML and CSS frameworks that come with implicit rules. These rules are developed for better use of such frameworks and best practices. However, the caveat is to read their documentations carefully to capture such constraints and rules. This could be quite a tedious work. WebChecker is built to capture such rules so that users of these framework can easily check their web pages for the conformance of such rules. 
+In the current state of web development, there are many HTML and CSS frameworks that come with implicit rules. Such frameworks include Bootstrap \cite{bootstrap}, Materialize \cite{materialize}, Foundation \cite{foundation}, and uikit \cite{uikit}. These rules are developed for better use of such frameworks and best practices. However, the caveat is to read their documentations carefully to capture such constraints and rules. This could be quite a tedious work. WebChecker is built to capture such rules so that users of these framework can easily check their web pages for the conformance of such rules. 
 
 The rest of the paper is structured as follows: Section II explains the problem and the current state of art solution and its limitation that motivated this project. In section III, we explain the WebChecker plugin and we show our solution for the problem. We compare the current solution and our solution of the problem and its improvements in Section IV. In Section V, we discuss related work. Lastly, Section VI concludes the paper and outlines the future of the plugin and future work to enhance the plugin.  
 
@@ -160,11 +160,7 @@ WebChecker follows \textit{separation of concern} principle with writing minimum
 
 \subsection{WebChecker EVL Structure}
 The WebChecker EVL structure follows the same EVL structure \cite{Kolovos2009}. However, here we only explain the syntax used by WebChecker. 
-\begin{itemize}
-\item \textit{Context}: an EVL file could have one or more contexts. To capture an HTML element, a context should start with \textit{t\_}, for \textit{type}, followed by the name of the HTML element such as \textit{t\_div}, \textit{t\_picture}, \textit{t\_section}, \textit{t\_button}, and etc.
-\item \textit{Constraint}: each \textit{Context} could have one or more constraints. A \textit{constraint} has a name and is used to name the constraint. Each \textit{constraint} have three sections \textit{guard}, \textit{check}, and \textit{message}. Optionally, an EVL constraint could have a \textit{fix} section, where the model is fixed if the constraint does not satisfy. Currently, WebChecker does not utilize this feature. Section VI explains future enhancements to WebChecker where the \textit{fix} block is explained. 
-\item \textit{guard}: this block captures a specific section of the context for checking. \textit{guard} must return a boolean value. If true, the \textit{check} block is executed. The \textit{guard} block accepts compound boolean statements by using \textit{and} and \textit{or}.      
-\end{itemize}
+
 
 \begin{lstlisting}[language=Java, caption=Enforcing Bootstrap Grid Rule by Using WebChecker, label={lst:webcheckerSolution}]
 //newCheck.evl
@@ -183,6 +179,11 @@ context t_div {
 
 \end{lstlisting}
 
+\begin{itemize}
+\item \textit{Context}: an EVL file could have one or more contexts. To capture an HTML element, a context should start with \textit{t\_}, for \textit{type}, followed by the name of the HTML element such as \textit{t\_div}, \textit{t\_picture}, \textit{t\_section}, \textit{t\_button}, and etc.
+\item \textit{Constraint}: each \textit{Context} could have one or more constraints. A \textit{constraint} has a name and is used to name the constraint. Each \textit{constraint} have three sections \textit{guard}, \textit{check}, and \textit{message}. Optionally, an EVL constraint could have a \textit{fix} section, where the model is fixed if the constraint does not satisfy. Currently, WebChecker does not utilize this feature. Section VI explains future enhancements to WebChecker where the \textit{fix} block is explained. 
+\item \textit{guard}: this block captures a specific section of the context for checking. \textit{guard} must return a boolean value. If true, the \textit{check} block is executed. The \textit{guard} block accepts compound boolean statements by using \textit{and} and \textit{or}.      
+\end{itemize}
 \begin{itemize}
 \item \textit{check}: this block \textit{check}s if the constraint is satisfied. Expressions in this block must return a boolean value. If the expression returns true, the constraint is satisfied and hence the \textit{message} block is not executed. Similarly as the \textit{guard} block, this block accepts compound boolean statements.
 \item \textit{message}: this block returns a message if the constraint is not satisfied. WebChecker provides a convenient method to capture all unsatified constraints' messages shown in Line 15 of Listing \ref{lst:webcheckerSolution}.  
@@ -206,18 +207,19 @@ Bootlint \cite{bootlint} is a Bootstrap specific linter for checking common HTML
 
 Policheck is Microsoft's internal tool that checks codes, comments, and contents including web pages. For example, it can check if a web page contains inappropriate content or its style matches best practices and guidelines \cite{christakis16}.
 
+ESLint \cite{eslint} is a static JavaScript analysis linting utility written in JavaScript to enforce coding styles through pluggable rules. With ESLint, developers can analyze JavaScript code by using default rules or creating new rules without running the JavaScript code. ESLint requires a configuration file in JavaScript Object Notation (JSON), YAML (YAML Ain't Markup Language) or JavaScript. Most importantly, the configuration file includes the source of the rule file, which is a JavaScript file that has the implementation of the rule.    
+ 
 
-
-    
 
 \section{Conclusion and Future Work}
 
-- DSL
-- Editor Extension such as VSCode and Atom
-- Specific type for HTML element. Don't depend on jsoup
-- Extend EVL context selector 
+In this paper, we have proposed a new plugin for the Epsilon Validation Language with a concrete example. We identified the current solution developers use to check web pages for framework rule conformance, and compared our solution with the improvements it brings. 
 
-\bibliography{References} 
+We believe that with web pages being ubiquitous, there will be more frameworks with implicit rules and less detailed documentations. If developers of these frameworks have a tool such as WebChecker, they can write exhaustive lists without providing much documentations since EVL constraints are easily readable and close to a natural language. 
+
+Further research on the topic includes evaluating other framework rules and capturing such implicit rules, providing WebChecker through popular text editors, validating web pages online, project-wise validation, and developing a domain specific language for capturing and enforcing implicit rules that is easy to integrate with a development workflow.
+
 \bibliographystyle{ieeetr}
+\bibliography{References} 
 
 \end{document}
