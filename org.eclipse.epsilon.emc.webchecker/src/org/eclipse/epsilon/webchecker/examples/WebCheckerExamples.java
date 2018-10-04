@@ -70,8 +70,8 @@ public class WebCheckerExamples {
 		File input = new File("files/bootstrap/newCheck.html");
 		try {
 			Document doc = Jsoup.parse(input, "UTF-8");
-			Elements elments = doc.getElementsByTag("div");
-			for (Element element : elments) {
+			Elements elements = doc.getElementsByTag("div");
+			for (Element element : elements) {
 				if (element.hasClass("col-sm-4")) {					
 					if (!element.parent().hasClass("row")) {
 						System.out.println("A div element with class col should have a parent element with class row");
