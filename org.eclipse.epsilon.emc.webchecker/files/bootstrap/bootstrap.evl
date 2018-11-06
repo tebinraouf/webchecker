@@ -208,7 +208,7 @@ context t_head {
     constraint scriptTag {
         guard : self.type.exists()
         check : self.type.hasChild("script")
-        message : "The head element should include a script tag"
+        message : "The head element should include a script tag for Bootstrap and jQuery scripts"
     }
     constraint jQuery {
         guard : self.type.hasChild("script")
@@ -220,11 +220,19 @@ context t_head {
     }
     constraint jQueryVersion {
         guard : self.type.hasChild("script")
-        //param1: tag name
-        //param2: attribute name
-        //param3: string to be searched in attribute name
         check : self.type.contains("script", "src", "3.3.1")
         message : "Bootstrap requires jQuery v1.9.0 or higher"
+    }
+    //W013
+    constraint BootstrapCSSVersion {
+        guard : self.type.hasChild("script")
+        check : self.type.contains("link", "href", "4.1.3")
+        message : "Bootstrap's latest version is 4.1.3 - CSS"
+    }
+    constraint BootstrapScriptVersion {
+        guard : self.type.hasChild("script")
+        check : self.type.contains("script", "src", "4.1.3")
+        message : "Bootstrap's latest version is 4.1.3 - JS Script"
     }
 }
 //W006
@@ -266,4 +274,42 @@ context t_div {
         message : "Instead of using an empty column just to occupy space and push the next column further to the right, you can just use Bootstrap's .col-*-offset-* classes"
     }
 }
-
+//W012
+context t_div { 
+    constraint NavbarFirstChild {
+        guard : self.type.hasClass("navbar")
+        check : self.type.children.hasClass("container") or self.type.children.hasClass("container-fluid")
+        message : ".navbar's first child element should always be either .container or .container-fluid"
+    }
+}
+//W014
+context t_a { 
+    constraint CarouselControls {
+        guard : self.class.includes("carousel-control-prev") or self.class.includes("carousel-control-next")
+        check : self.parent.hasClass("carousel") and self.type.hasAttr("href") or self.type.hasAttr("data-target")
+        message : "Carousel controls and indicators should have a parent div element with class caraousel and use `href` or `data-target` to reference an element with class `.carousel`."
+    }
+}
+//W016
+context t_button { 
+    constraint DisabledButton {
+        guard : self.class.includes("disabled")
+        check : self.type.hasAttr("disabled")
+        message : "Using the `.disabled` class on a `<button>` only changes the appearance of the element. It doesn't prevent the user from interacting with the element (for example, clicking on it or focusing it). If you want to truly disable the element, use the `disabled` attribute instead."
+    }
+}
+context t_input { 
+    constraint DisabledButton {
+        guard : self.class.includes("disabled")
+        check : self.type.hasAttr("disabled")
+        message : "Using the `.disabled` class on a `<input />` only changes the appearance of the element. It doesn't prevent the user from interacting with the element (for example, clicking on it or focusing it). If you want to truly disable the element, use the `disabled` attribute instead."
+    }
+}
+//W017
+context t_input { 
+    constraint InputMissingType {
+        guard : self.type.exists()
+        check : self.type.hasAttr("type")
+        message : "It's best-practice to always set an explicit type on <input>s. If an <input> lacks a type attribute, it defaults to being a type='text'"
+    }
+}

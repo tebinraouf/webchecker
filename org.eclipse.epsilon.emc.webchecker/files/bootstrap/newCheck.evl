@@ -1,7 +1,7 @@
 // context t_div { 
-//     constraint NavbarFirstChild {
-//         guard : self.type.hasClass("navbar")
-//         check : self.child.hasClass("container")
-//         message : ".navbar's first child element should always be either .container or .container-fluid"
+//     constraint GridSize {
+//         guard : self.type.hasOnly("col-md-12")
+//         check : self.parent.classes.includes("")
+//         message : ""
 //     }
 // }

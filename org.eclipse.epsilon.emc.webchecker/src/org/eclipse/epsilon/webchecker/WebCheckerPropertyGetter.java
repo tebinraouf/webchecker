@@ -1,4 +1,5 @@
 package org.eclipse.epsilon.webchecker;
+import java.util.ArrayList;
 import java.util.Set;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -64,13 +65,9 @@ abstract class CustomElement {
 		return r;
 	}
 	public boolean select(String cssSelector, String value) {
-		
-		System.out.println(element.select(cssSelector));
-		
 		return element.select(cssSelector).contains(value);
 	}
-	public boolean has(String name) {
-		
+	public boolean has(String name) {	
 		return element.attr("src").contains(name);
 	}
 	public boolean contains(String tagName, String attrName, String value) {
