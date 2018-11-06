@@ -170,4 +170,100 @@ context t_div {
 	}
 }
 
+context t_head {
+    //<meta...>
+    constraint metaTag {
+        guard : self.type.exists()
+        check : self.type.hasChild("meta")
+        message : "The head element should include a meta tag"
+    } 
+    //W001
+    //<meta charset="UTF-8">
+    constraint charset {
+        guard : self.type.hasChild("meta")
+        //param1: tag name
+        //param2: attribute name
+        //param3: attribute value
+        check : self.type.selector("meta", "charset", "UTF-8")
+        message : "No meta tag with charset attribute was found in the head element of the document."
+    }
+    //W002
+    //<meta http-equiv="X-UA-Compatible" content="ie=edge">
+    constraint XUACompatibility {
+        guard : self.type.hasChild("meta")
+        check : self.type.selector("meta", "http-equiv", "X-UA-Compatible")
+        message : "`<head>` is missing X-UA-Compatible `<meta>` tag that disables old IE compatibility modes"
+    }
+    //W003
+    //<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    constraint Viewport {
+        guard : self.type.hasChild("meta")
+        check : self.type.selector("meta", "name", "viewport")
+        message : "`<head>` is missing viewport `<meta>` tag that enables responsiveness"
+    }
+}
+context t_head {
+    //W005
+    //<script...>
+    constraint scriptTag {
+        guard : self.type.exists()
+        check : self.type.hasChild("script")
+        message : "The head element should include a script tag"
+    }
+    constraint jQuery {
+        guard : self.type.hasChild("script")
+        //param1: tag name
+        //param2: attribute name
+        //param3: string to be searched in attribute name
+        check : self.type.contains("script", "src", "jquery")
+        message : "To use Bootstrap's jQuery plugin, jQuery is required. "
+    }
+    constraint jQueryVersion {
+        guard : self.type.hasChild("script")
+        //param1: tag name
+        //param2: attribute name
+        //param3: string to be searched in attribute name
+        check : self.type.contains("script", "src", "3.3.1")
+        message : "Bootstrap requires jQuery v1.9.0 or higher"
+    }
+}
+//W006
+context t_button { 
+    constraint TooltipsDisabledButton {
+        guard : (self.attr("data-toggle") == "tooltip") or (self.attr("data-toggle") == "popover") 
+        check : not self.type.hasAttr("disabled")
+        message : "Tooltips and popovers on disabled elements cannot be triggered by user interaction unless the element becomes enabled. To have tooltips and popovers be triggerable by the user even when their associated element is disabled, put the disabled element inside a wrapper <div> and apply the tooltip or popover to the wrapper <div> instead."
+    }
+}
+//W007
+context t_button { 
+    constraint ButtonMissingType {
+        guard : self.type.exists()
+        check : self.hasAttr("type")
+        message : "Buttons should have a type attribute. Read more at http://wtfhtmlcss.com/#buttons-type"
+    }
+}
+//W008
+context t_button { 
+    constraint TooltipsInBtnGroup {
+        guard : ((self.attr("data-toggle") == "tooltip") or (self.attr("data-toggle") == "popover")) and self.parent.hasClass("btn-group")
+        check : (self.attr("data-container") == "body")
+        message : "Tooltips and popovers within button groups should have their `container` set to `\'body\'`."
+    }
+}
+//W009
+context t_div { 
+    constraint EmptySpace {
+        guard : self.type.exists()
+        check : self.type.isEmpty()
+        message : "Div is empty. Try removing it."
+    }
+}
+context t_div { 
+    constraint EmptySpace {
+        guard : self.type.previousSibling.is("div") or self.type.nextSibling.is("div")
+        check : self.type.isEmpty()
+        message : "Instead of using an empty column just to occupy space and push the next column further to the right, you can just use Bootstrap's .col-*-offset-* classes"
+    }
+}
 

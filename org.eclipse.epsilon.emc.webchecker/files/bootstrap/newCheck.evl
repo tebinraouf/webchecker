@@ -1,0 +1,7 @@
+// context t_div { 
+//     constraint NavbarFirstChild {
+//         guard : self.type.hasClass("navbar")
+//         check : self.child.hasClass("container")
+//         message : ".navbar's first child element should always be either .container or .container-fluid"
+//     }
+// }

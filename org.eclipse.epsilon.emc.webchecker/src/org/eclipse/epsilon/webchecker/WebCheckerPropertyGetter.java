@@ -9,6 +9,7 @@ import org.jsoup.select.Elements;
 
 abstract class CustomElement {
 	private Element element;
+	private Element currentElement;
 
 	public CustomElement(Element element) {
 		this.element = element;
@@ -27,13 +28,17 @@ abstract class CustomElement {
 	}
 	public boolean hasChild(String tagName) {	
 		for (Element e : element.children()) {
-			return e.tagName().equals(tagName);
+			if (e.tagName().equals(tagName)) return true;
 		}
 		return false;
 	}
 	public boolean exists() {
 		return true;
 	}
+	public boolean currentElement(String attrName) {
+		return currentElement.hasAttr(attrName); 
+	}
+	
 	public Elements getChildren() {
 		return element.children();
 	}
@@ -52,6 +57,33 @@ abstract class CustomElement {
 	public boolean is(String tagName) {
 		return element.tagName().equals(tagName);
 	}
+	public boolean selector(String tagName, String attrName, String attrValue) {
+		String sf = String.format("%s[%s]", tagName, attrName);
+		Elements e = element.select(sf);
+		boolean r = e.attr(attrName).equals(attrValue);
+		return r;
+	}
+	public boolean select(String cssSelector, String value) {
+		
+		System.out.println(element.select(cssSelector));
+		
+		return element.select(cssSelector).contains(value);
+	}
+	public boolean has(String name) {
+		
+		return element.attr("src").contains(name);
+	}
+	public boolean contains(String tagName, String attrName, String value) {
+		for (Element e : element.children()) {
+			if (e.tagName().equals(tagName)) {
+				if (e.attr(attrName).contains(value)) return true;
+			}
+		}
+		return false;
+	}
+	public boolean isEmpty() {
+		return element.hasText();
+	}
 }
 
 
@@ -65,7 +97,7 @@ class Type extends CustomElement {
 	public Type(Element element) {
 		super(element);
 	}
-	public Sibling getPreviousSibling() {	
+	public Sibling getPreviousSibling() {
 		return new Sibling(getElement().previousElementSibling());
 	}
 	public Sibling getNextSibling() {		

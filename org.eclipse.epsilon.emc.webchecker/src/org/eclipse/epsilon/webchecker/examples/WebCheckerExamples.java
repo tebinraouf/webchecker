@@ -43,10 +43,10 @@ public class WebCheckerExamples {
 	}
 	public void e2() {
 		//Step 1: Get the source to be validated
-		String html = "files/bootstrap/bootstrap.html";
+		String html = "files/bootstrap/newCheck.html";
 		
 		//Step 2: Write your validation using Epsilon Validation Language
-		String evl = "files/bootstrap/bootstrap.evl";
+		String evl = "files/bootstrap/newCheck.evl";
 		
 		//Step 3: Check the validation against the html in step 1
 		WebChecker checker = new WebChecker();
