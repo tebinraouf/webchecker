@@ -1,7 +1,2 @@
-// context t_div { 
-//     constraint GridSize {
-//         guard : self.type.hasOnly("col-md-12")
-//         check : self.parent.classes.includes("")
-//         message : ""
-//     }
-// }
+
+

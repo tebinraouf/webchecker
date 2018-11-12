@@ -1,14 +1,5 @@
 context t_div { 
-	constraint RowUnderContainer {
-		guard : self.class.includes("row")
-		check : self.parent.classes.includes("container")
-		message : "row should be under container."
-	}
-	constraint ColUnderRow {
-		guard : self.class.includes("col-sm-4")
-		check : self.parent.classes.includes("row")
-		message : "col-sm-4 divs should be contained under row."
-	}
+
 	constraint Media {
 		guard : self.class.includes("media-body")
 		check : self.parent.classes.includes("media")
@@ -311,5 +302,96 @@ context t_input {
         guard : self.type.exists()
         check : self.type.hasAttr("type")
         message : "It's best-practice to always set an explicit type on <input>s. If an <input> lacks a type attribute, it defaults to being a type='text'"
+    }
+}
+//E003
+context t_div { 
+    constraint RowUnderContainer {
+		guard : self.class.includes("row")
+		check : self.parent.classes.includes("container")
+		message : "row should be under container."
+	}
+	constraint ColUnderRow {
+		guard : self.class.includes("col-sm-4")
+		check : self.parent.classes.includes("row")
+		message : "col-sm-4 divs should be contained under row."
+	}
+}
+//E004
+context t_div { 
+    constraint ContainerInContainer {
+        guard : self.class.includes("container")
+        check : self.parent.classes.includes("container")
+        message : "Containers (.container and .container-fluid) are not nestable"
+    }
+}
+context t_div { 
+    constraint ContainerInContainer {
+        guard : self.class.includes("container-fluid")
+        check : self.parent.classes.includes("container-fluid")
+        message : "Containers (.container and .container-fluid) are not nestable"
+    }
+}
+//E005
+context t_div { 
+    constraint RowCol {
+        guard : self.type.hasClass("row") or self.type.hasClass("col-md-6")
+        check : not self.hasClass("row") or not self.hasClass("col-md-6")
+        message : "Found both .row and .col* used on the same element"
+    }
+}
+//E006
+context t_select { 
+    constraint SelectInInputGroup {
+        guard : self.type.exists()
+        check : not self.parent.classes.includes("input-group")
+        message : ".input-group contains a <select>; this should be avoided as <select>s cannot be fully styled in WebKit browsers"
+    }
+}
+context t_textarea { 
+    constraint SelectInInputGroup {
+        guard : self.type.exists()
+        check : not self.parent.classes.includes("input-group")
+        message : ".input-group contains a <textarea>; only text-based <input>s are permitted in an .input-group"
+    }
+}
+//E007
+context t_head { 
+    constraint TwoVersions {
+        guard : self.type.hasChild("script")
+        check : not self.type.contains("script", "src", "bootstrap.js") or not self.type.contains("script", "src", "bootstrap.min.js")
+        message : "Only one copy of Bootstrap's JS should be included; currently the webpage includes both bootstrap.js and bootstrap.min.js"
+    }
+}
+//E009
+context t_button { 
+    constraint ButtonSizeInInput {
+        guard : self.hasClass("btn-lg") or self.hasClass("btn-sm")
+        check : self.parent.classes.includes("input-group")
+        message : "Button and input sizing within .input-groups can cause issues. Instead, use input group sizing classes .input-group-lg or .input-group-sm"
+    }
+}
+//E010
+context t_div { 
+    constraint MultipleFormControl {
+        guard : self.hasClass("input-group")
+        check :  self.type.count("input") <= 1
+        message : "Input groups cannot contain multiple .form-controls"
+    }
+}
+//E011
+context t_div { 
+    constraint FormGroupInputGroup {
+        guard : self.hasClass("form-group") or self.hasClass("input-group")
+        check : not self.hasClass("form-group") or not self.hasClass("input-group")
+        message : ".input-group and .form-group cannot be used directly on the same element. Instead, nest the .input-group within the .form-group"
+    }
+}
+//E012
+context t_div { 
+    constraint InputGroupAndCol {
+        guard : self.type.includes("col-*") or self.hasClass("input-group")
+        check : not self.type.includes("col-*") or not self.hasClass("input-group")
+        message : "input-group and .col* cannot be used directly on the same element. Instead, nest the .input-group within the .col-*-*"
     }
 }

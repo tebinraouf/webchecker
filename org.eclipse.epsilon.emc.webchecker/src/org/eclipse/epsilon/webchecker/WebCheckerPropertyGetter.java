@@ -23,7 +23,10 @@ abstract class CustomElement {
 	}
 	public boolean hasClass(String className) {
 		if (element != null) {
-			return element.hasClass(className);
+			
+			boolean r = element.hasClass(className);
+			
+			return r;
 		} 
 		return false;
 	}
@@ -81,6 +84,26 @@ abstract class CustomElement {
 	public boolean isEmpty() {
 		return element.hasText();
 	}
+	
+	public int count(String tagName) {
+		int c = 0;		
+		for (Element e : element.children()) {
+			if (e.tagName().equals(tagName)) {
+				c++;
+			}
+		}	
+		return c;
+	}
+	public boolean includes(String className) {
+		if (className.endsWith("-*")) {
+			String cn = className.substring(0, className.length() - 1);
+			for (String c : element.classNames()) {
+				if (c.startsWith(cn)) return true;
+			}
+		}
+		return false;
+	}
+	
 }
 
 
