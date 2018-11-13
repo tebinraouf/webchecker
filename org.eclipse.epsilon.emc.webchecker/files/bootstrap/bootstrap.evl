@@ -395,3 +395,81 @@ context t_div {
         message : "input-group and .col* cannot be used directly on the same element. Instead, nest the .input-group within the .col-*-*"
     }
 }
+//E013
+context t_div { 
+    constraint RowChildrenMustBeCol {
+        guard : self.class.includes("row")
+        check : self.type.allChildrenHasClass("col-*")
+        message : "Only columns (.col-*-*) may be children of .rows"
+    }
+}
+//E014
+context t_div { 
+	constraint ColUnderRow {
+		guard : self.class.includes("col-*")
+		check : self.parent.classes.includes("row") or self.parent.classes.includes("form-group")
+		message : "Columns (.col*) can only be children of .rows or .form-rows"
+	}
+}
+//E015
+context t_span { 
+    constraint MultipleAddOns {
+        guard : self.class.includes("input-group-addon")
+        check : not self.type.previousSibling.hasClass("input-group-addon") and not self.type.nextSibling.hasClass("input-group-addon")
+        message : "Having multiple add-ons on a single side of an input group is not supported"
+    }
+}
+//E016
+context t_button { 
+    constraint DropDownToggle {
+        guard : self.hasClass("dropdown-toggle") and self.parent.classes.includes("btn-group")
+        check : self.type.previousSibling.hasClass("btn")
+        message : ".btn.dropdown-toggle must be the last button in a button group"
+    }
+}
+//E017
+context t_div { 
+    constraint CheckboxStructure {
+        guard : self.hasClass("checkbox")
+        check : self.type.selector(".checkbox>label>input[type=\"checkbox\"]")
+        message : "Bootstrap's .checkbox class requires the use of a specific DOM structure which matches the CSS selector .checkbox>label>input[type=\"checkbox\"]. Using the .checkbox class with a different DOM structure can cause problems."
+    }
+}
+//E018
+context t_div { 
+    constraint CheckboxStructure {
+        guard : self.hasClass("radio")
+        check : self.type.selector(".radio>label>input[type=\"radio\"]")
+        message : "Bootstrap's .radio class requires the use of a specific DOM structure which matches the CSS selector .radio>label>input[type=\"radio\"]. Using the .radio class with a different DOM structure can cause problems."
+    }
+}
+//E019
+context t_span { 
+    constraint CheckboxInline {
+        guard : self.hasClass("checkbox-inline")
+        check : self.type.is("label")
+        message : ".checkbox-inline should only be used on <label> elements"
+    }
+}
+context t_label { 
+    constraint CheckboxStructure {
+        guard : self.hasClass("checkbox-inline")
+        check : self.type.selector(".checkbox-inline>input[type=\"checkbox\"]")
+        message : "Incorrect markup used with the .checkbox-inline class. The correct markup structure is label.checkbox-inline>input[type=\"checkbox\"]"
+    }
+}
+//E020
+context t_span { 
+    constraint CheckboxInline {
+        guard : self.hasClass("radio-inline")
+        check : self.type.is("label")
+        message : ".radio-inline should only be used on <label> elements"
+    }
+}
+context t_label { 
+    constraint CheckboxStructure {
+        guard : self.hasClass("radio-inline")
+        check : self.type.selector(".radio-inline>input[type=\"radio\"]")
+        message : "Incorrect markup used with the .radio-inline class. The correct markup structure is label.radio-inline>input[type=\"radio\"]"
+    }
+}

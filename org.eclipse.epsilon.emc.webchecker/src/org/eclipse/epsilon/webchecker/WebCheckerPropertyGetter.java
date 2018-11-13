@@ -73,6 +73,10 @@ abstract class CustomElement {
 	public boolean has(String name) {	
 		return element.attr("src").contains(name);
 	}
+	public boolean selector(String selector) {		
+		boolean r = element.select(selector).isEmpty();
+		return !r;
+	}
 	public boolean contains(String tagName, String attrName, String value) {
 		for (Element e : element.children()) {
 			if (e.tagName().equals(tagName)) {
@@ -94,12 +98,27 @@ abstract class CustomElement {
 		}	
 		return c;
 	}
+	
+	public boolean allChildrenHasClass(String className) {
+		for (Element e : element.children()) {
+			for (String cn : e.classNames()) {
+				boolean result = cn.contains(className.substring(0, className.length() - 1));
+				if (!result) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
 	public boolean includes(String className) {
 		if (className.endsWith("-*")) {
 			String cn = className.substring(0, className.length() - 1);
 			for (String c : element.classNames()) {
 				if (c.startsWith(cn)) return true;
 			}
+		} else {
+			return element.classNames().contains(className);
 		}
 		return false;
 	}
