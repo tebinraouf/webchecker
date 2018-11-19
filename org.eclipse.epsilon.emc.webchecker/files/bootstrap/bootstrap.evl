@@ -117,21 +117,6 @@ context t_li {
     }
 }
 context t_a { 
-    constraint CheckBtnClass {
-        guard : self.class.includes("btn")
-        check : self.type.is("button") or (self.attr("role") == "button")
-        message : "Warnning: btn classes are designed to be used with the <button> element. If they are used with <a> elements, the role attribute should be defined and the value should be button."
-    }
-}
-context t_input { 
-    constraint CheckBtnClass {
-        guard : self.class.includes("btn")
-        check : self.type.is("button")
-        message : "Warnning: btn classes are designed to be used with the <button> element."
-    }
-}
-
-context t_a { 
     constraint ActiveAElementWithBtnClass {
         guard : self.hasClass("btn") and self.hasClass("active") 
         check : (self.attr("aria-pressed") == "true")
@@ -471,5 +456,83 @@ context t_label {
         guard : self.hasClass("radio-inline")
         check : self.type.selector(".radio-inline>input[type=\"radio\"]")
         message : "Incorrect markup used with the .radio-inline class. The correct markup structure is label.radio-inline>input[type=\"radio\"]"
+    }
+}
+//E021
+context t_input { 
+    constraint ActiveCheckboxRadio {
+        guard : ((self.attr("type") == "checkbox") or (self.attr("type") == "radio")) and self.parent.classes.includes("btn")
+        check : self.hasAttr("checked") and self.parent.classes.includes("active")
+        message : ".active class used without the checked attribute (or vice-versa) in a button group using the button.js plugin"
+    }
+}
+//E045
+context t_div { 
+    constraint ImgResponsive {
+        guard : self.class.includes("img-responsive")
+        check : self.type.is("img")
+        message : "The .img-responsive class is only meant for use on <img> elements."
+    }
+}
+//E046
+context t_div { 
+    constraint ModalWithRoleAttribute {
+        guard : self.type.hasClass("modal")
+        check : (self.attr("tabindex") == "-1")
+        message : "For accessibility reasons, all modals (i.e. elements with the .modal class) must have a tabindex attribute. Normally -1 is used as the value, resulting in tabindex=\"-1\"."
+    }
+}
+// E047
+context t_a { 
+    constraint CheckBtnClass {
+        guard : self.class.includes("btn")
+        check : self.type.is("button") or (self.attr("role") == "button")
+        message : "Warnning: btn classes are designed to be used with the <button> element. If they are used with <a> elements, the role attribute should be defined and the value should be button."
+    }
+}
+context t_input { 
+    constraint CheckBtnClass {
+        guard : self.class.includes("btn")
+        check : self.type.is("button")
+        message : "Warnning: btn classes are designed to be used with the <button> element."
+    }
+}
+context t_label { 
+    constraint CheckBtnClass {
+        guard : self.class.includes("btn")
+        check : self.type.is("button")
+        message : "Warnning: btn classes are designed to be used with the <button> element."
+    }
+}
+//E048
+context t_div { 
+    constraint ModalWithRoleAttribute {
+        guard : self.type.hasClass("modal")
+        check : (self.attr("role") == "dialog")
+        message : "For accessibility reasons, all modals (i.e. elements with the .modal class) must have a role attribute with a value of dialog."
+    }
+}
+//E049
+context t_div { 
+    constraint ModalWithRoleAttribute {
+        guard : self.type.hasClass("modal-dialog")
+        check : (self.attr("role") == "document")
+        message : "For accessibility reasons, all elements with the .modal-dialog class must have a role attribute with a value of document."
+    }
+}
+//E051
+context t_div { 
+    constraint FloatLeftRightForRow {
+        guard : self.type.includes("col-*")
+        check : not (self.class.includes("float-right") or self.class.includes("float-left"))
+        message : ".float-right and .float-left classes, and manual style attributes with float: left or float: right are not allowed on .row elements"
+    }
+}
+//E052
+context t_div { 
+    constraint FloatLeftRightForRow {
+        guard : self.class.includes("row")
+        check : not (self.class.includes("float-right") or self.class.includes("float-left"))
+        message : ".float-right and .float-left classes, and manual style attributes with float: left or float: right are not allowed on .row elements"
     }
 }
